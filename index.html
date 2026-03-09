@@ -1,99 +1,346 @@
-export default function XuanxuanBirthdayPage() {
-  const [step, setStep] = React.useState(0);
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>璇璇生日附加页</title>
+  <style>
+    * { box-sizing: border-box; }
 
-  const pages = [
-    {
-      label: "01 / 祝福",
-      title: "给璇璇的一页生日祝福",
-      subtitle:
-        "生日快乐。愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。",
-      note: "先别急着关掉，这个页面不是只有一层。",
-      button: "继续往下看",
-    },
-    {
-      label: "02 / 附加页",
-      title: "这一页算礼物里的隐藏小夹层",
-      subtitle:
-        "我们不是那种总有很多话要说的人，可你又一直都在。没有很喧闹，却也从来没有真正离开过。",
-      note: "就像礼物盒里那张小信封一样，这一页只是想让整份礼物更完整一点。",
-      button: "打开最后一层",
-    },
-    {
-      label: "03 / 信",
-      title: "写给璇璇的话",
-      subtitle:
-        "这些年里，我越来越觉得，人与人之间有一种很珍贵的缘分，不是一定要多热烈、多频繁，而是无论时间过去多久，那个人都还是会被你轻轻地放在心上。",
-      note:
-        "而你对我来说，一直都是这样。\n\n我们没有每天说很多很多话，可你从来都不是一个会让我轻易忘记的人。你好像一直都在，安静地停留在我的生活里，也停留在我每次想起时都会变得柔软一点的心情里。\n\n所以这次想认真给你准备一份生日礼物。想在你生日这一天，把一份很安静、很真诚的心意送给你。不是为了多特别，只是因为是你，所以觉得值得。\n\n希望你打开它的时候，会有一点开心，也会有一点被惦记、被珍惜的感觉。你值得这世上所有温柔的事发生，值得被认真对待，值得被放在心上。\n\n新的一岁，愿你平安顺遂，明亮自在。愿你在往后的日子里，一直有爱，有期待，有小小的惊喜，也一直拥有让自己幸福的能力。",
-      button: "再看一遍",
-    },
-  ];
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #f7f3ff 0%, #fcfbff 48%, #f3ecff 100%);
+      color: #4f455b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-  const current = pages[step];
+    .shell {
+      width: 100%;
+      max-width: 900px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(196, 176, 229, 0.45);
+      box-shadow: 0 24px 80px rgba(122, 98, 170, 0.12);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
 
-  const nextStep = () => {
-    if (step < pages.length - 1) setStep(step + 1);
-    else setStep(0);
-  };
+    .top-line {
+      height: 4px;
+      background: linear-gradient(90deg, #d9c8ff, #f2d5ea, #d9c8ff);
+    }
 
-  return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f7f3ff_0%,#fcfbff_48%,#f3ecff_100%)] text-slate-700 flex items-center justify-center p-5 md:p-8">
-      <div className="w-full max-w-3xl rounded-[34px] border border-violet-200/60 bg-white/90 shadow-[0_24px_80px_rgba(122,98,170,0.12)] backdrop-blur relative overflow-hidden">
-        <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-violet-200 via-fuchsia-200 to-violet-200" />
-        <div className="absolute -top-24 -right-16 h-52 w-52 rounded-full bg-violet-200/35 blur-3xl" />
-        <div className="absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-pink-200/30 blur-3xl" />
+    .glow {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(46px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
 
-        <div className="relative z-10 p-6 md:p-10">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-sm text-violet-700">
-              {current.label}
-            </div>
-            <div className="text-sm text-slate-400">璇璇生日附加页</div>
+    .glow.one {
+      width: 220px;
+      height: 220px;
+      background: #ddd0ff;
+      top: -80px;
+      right: -60px;
+    }
+
+    .glow.two {
+      width: 220px;
+      height: 220px;
+      background: #ffd8ea;
+      bottom: -90px;
+      left: -80px;
+    }
+
+    .inner {
+      position: relative;
+      z-index: 1;
+      padding: 26px 20px 24px;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #f3edff;
+      border: 1px solid #e5d9ff;
+      color: #7c63ad;
+      font-size: 13px;
+    }
+
+    .site-name {
+      font-size: 14px;
+      color: #a093b3;
+    }
+
+    .stage {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border-radius: 28px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 10px 24px rgba(88, 72, 117, 0.05);
+      padding: 26px 22px;
+    }
+
+    .side {
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(248,243,255,0.96), rgba(255,255,255,0.96));
+      border: 1px solid #eee5ff;
+      box-shadow: 0 10px 24px rgba(88, 72, 117, 0.05);
+      padding: 24px 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.25;
+      color: #40354e;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      white-space: pre-line;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+      font-size: 16px;
+      line-height: 2;
+      color: #675d75;
+      white-space: pre-line;
+    }
+
+    .small-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #b09bcf;
+    }
+
+    .note {
+      margin-top: 14px;
+      font-size: 15px;
+      line-height: 2;
+      color: #6a6077;
+      white-space: pre-line;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease, background .15s ease;
+      font-family: inherit;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      background: #3f354c;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 18px rgba(63,53,76,0.18);
+    }
+
+    .primary-btn:hover { transform: translateY(-1px); opacity: .96; }
+
+    .secondary-btn {
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: #f4efff;
+      color: #745d9f;
+      font-size: 13px;
+      border: 1px solid #e7dbff;
+    }
+
+    .secondary-btn:hover { background: #eee6ff; }
+
+    .dots {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #d7c8f5;
+      transition: all .2s ease;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      width: 34px;
+      background: #a986ee;
+    }
+
+    .bottom-text {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #9d90af;
+    }
+
+    @media (max-width: 760px) {
+      .stage {
+        grid-template-columns: 1fr;
+      }
+
+      .inner {
+        padding: 20px 14px 20px;
+      }
+
+      .panel, .side {
+        padding: 22px 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top-line"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+
+    <div class="inner">
+      <div class="meta">
+        <div class="badge" id="pageLabel">01 / 祝福</div>
+        <div class="site-name">璇璇生日附加页</div>
+      </div>
+
+      <div class="stage">
+        <div class="panel">
+          <h1 id="title"></h1>
+          <div class="subtitle" id="subtitle"></div>
+        </div>
+
+        <div class="side">
+          <div class="small-label">note</div>
+          <div class="note" id="note"></div>
+
+          <div class="btn-row">
+            <button class="secondary-btn" id="prevBtn" onclick="prevPage()">上一层</button>
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-[1.15fr_0.85fr] items-start">
-            <div className="rounded-[28px] border border-white/70 bg-white/80 shadow-sm p-6 md:p-8">
-              <h1 className="text-3xl md:text-[38px] leading-tight font-semibold tracking-tight text-slate-800 whitespace-pre-line">
-                {current.title}
-              </h1>
-              <p className="mt-5 text-[16px] md:text-[17px] leading-8 text-slate-600 whitespace-pre-line">
-                {current.subtitle}
-              </p>
-            </div>
-
-            <div className="rounded-[28px] border border-violet-100 bg-[linear-gradient(180deg,rgba(248,243,255,0.92),rgba(255,255,255,0.96))] p-6 md:p-7 shadow-sm">
-              <div className="text-xs uppercase tracking-[0.2em] text-violet-400">note</div>
-              <div className="mt-4 text-[15px] leading-8 text-slate-600 whitespace-pre-line">
-                {current.note}
-              </div>
-
-              <button
-                onClick={nextStep}
-                className="mt-8 w-full rounded-2xl bg-slate-800 px-5 py-3.5 text-sm font-medium text-white shadow hover:translate-y-[-1px] transition"
-              >
-                {current.button}
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-8 flex items-center justify-center gap-2">
-            {pages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setStep(index)}
-                className={`h-2.5 rounded-full transition-all ${
-                  step === index ? "w-10 bg-violet-400" : "w-2.5 bg-violet-200"
-                }`}
-                aria-label={`Go to page ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          <div className="mt-6 text-center text-sm text-slate-400">
-            这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。
-          </div>
+          <button class="primary-btn" id="nextBtn" onclick="nextPage()"></button>
         </div>
       </div>
+
+      <div class="dots" id="dots"></div>
+
+      <div class="bottom-text">
+        这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。
+      </div>
     </div>
-  );
-}
+  </div>
+
+  <script>
+    const pages = [
+      {
+        label: "01 / 祝福",
+        title: "给璇璇的一页生日祝福",
+        subtitle: "生日快乐。\n愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。",
+        note: "先别急着关掉。\n这个页面不是只有一层。",
+        button: "继续往下看"
+      },
+      {
+        label: "02 / 附加页",
+        title: "这一页算礼物里的隐藏小夹层",
+        subtitle: "我们不是那种总有很多话要说的人，可你又一直都在。\n没有很喧闹，却也从来没有真正离开过。",
+        note: "就像礼物盒里那张小信封一样，\n这一页只是想让整份礼物更完整一点。",
+        button: "打开最后一层"
+      },
+      {
+        label: "03 / 信",
+        title: "写给璇璇的话",
+        subtitle: "这些年里，我越来越觉得，人与人之间有一种很珍贵的缘分，不是一定要多热烈、多频繁，而是无论时间过去多久，那个人都还是会被你轻轻地放在心上。",
+        note: "而你对我来说，一直都是这样。\n\n我们没有每天说很多很多话，可你从来都不是一个会让我轻易忘记的人。你好像一直都在，安静地停留在我的生活里，也停留在我每次想起时都会变得柔软一点的心情里。\n\n所以这次想认真给你准备一份生日礼物。想在你生日这一天，把一份很安静、很真诚的心意送给你。不是为了多特别，只是因为是你，所以觉得值得。\n\n希望你打开它的时候，会有一点开心，也会有一点被惦记、被珍惜的感觉。你值得这世上所有温柔的事发生，值得被认真对待，值得被放在心上。\n\n新的一岁，愿你平安顺遂，明亮自在。愿你在往后的日子里，一直有爱，有期待，有小小的惊喜，也一直拥有让自己幸福的能力。",
+        button: "再看一遍"
+      }
+    ];
+
+    let currentStep = 0;
+
+    function renderPage() {
+      const current = pages[currentStep];
+      document.getElementById("pageLabel").textContent = current.label;
+      document.getElementById("title").textContent = current.title;
+      document.getElementById("subtitle").textContent = current.subtitle;
+      document.getElementById("note").textContent = current.note;
+      document.getElementById("nextBtn").textContent = current.button;
+      document.getElementById("prevBtn").style.display = currentStep === 0 ? "none" : "inline-block";
+
+      const dotsWrap = document.getElementById("dots");
+      dotsWrap.innerHTML = "";
+      pages.forEach((_, index) => {
+        const dot = document.createElement("div");
+        dot.className = index === currentStep ? "dot active" : "dot";
+        dot.onclick = () => {
+          currentStep = index;
+          renderPage();
+        };
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    function nextPage() {
+      if (currentStep < pages.length - 1) {
+        currentStep++;
+      } else {
+        currentStep = 0;
+      }
+      renderPage();
+    }
+
+    function prevPage() {
+      if (currentStep > 0) {
+        currentStep--;
+        renderPage();
+      }
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
