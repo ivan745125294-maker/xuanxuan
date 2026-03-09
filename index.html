@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>璇璇生日附加页</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #f8f5ff 0%, #ffffff 45%, #f5efff 100%);
+      color: #4b4453;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(182, 160, 220, 0.25);
+      border-radius: 28px;
+      padding: 28px 22px;
+      box-shadow: 0 18px 50px rgba(127, 102, 180, 0.12);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.45;
+      z-index: 0;
+    }
+
+    .glow.top {
+      width: 180px;
+      height: 180px;
+      background: #dfd2ff;
+      top: -60px;
+      right: -50px;
+    }
+
+    .glow.bottom {
+      width: 160px;
+      height: 160px;
+      background: #ffd9ef;
+      bottom: -60px;
+      left: -40px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #f2ecff;
+      color: #7a62aa;
+      font-size: 13px;
+      border: 1px solid #e4d9ff;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.2;
+      color: #3f3450;
+    }
+
+    .intro {
+      margin-top: 14px;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #655b72;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .box {
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid #eee6ff;
+      background: #faf7ff;
+    }
+
+    .box:nth-child(2) {
+      background: #fff7fb;
+      border-color: #ffe1ef;
+    }
+
+    .box:nth-child(3) {
+      background: #f6fbff;
+      border-color: #dcefff;
+    }
+
+    .small-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9b87be;
+      margin-bottom: 8px;
+    }
+
+    .box strong {
+      display: block;
+      font-size: 18px;
+      color: #43394f;
+      margin-bottom: 6px;
+    }
+
+    .box span {
+      font-size: 14px;
+      color: #746b81;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-top: 24px;
+      border-radius: 24px;
+      border: 1px solid #ece7f4;
+      background: #ffffff;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(90, 76, 124, 0.05);
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #43394f;
+    }
+
+    .section p {
+      margin: 8px 0 0;
+      color: #746b81;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 12px 18px;
+      background: #3e364a;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #f8f8fb;
+      border: 1px solid #f0edf5;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #4c4357;
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+    }
+
+    .secret-wrap {
+      margin-top: 24px;
+      border-radius: 24px;
+      border: 1px dashed #dacdf5;
+      background: #faf7ff;
+      padding: 22px;
+      text-align: center;
+    }
+
+    .secret-wrap p {
+      margin: 0;
+      color: #756b81;
+      line-height: 1.8;
+    }
+
+    .secret-trigger {
+      margin-top: 14px;
+      display: inline-block;
+      font-size: 14px;
+      color: #7a62aa;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+
+    .secret-box {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid #e5dafd;
+      background: #ffffff;
+      color: #4e4558;
+      line-height: 1.8;
+      display: none;
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: #9a90a7;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 22px 16px;
+        border-radius: 24px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .message {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="glow top"></div>
+    <div class="glow bottom"></div>
+
+    <div class="content">
+      <div class="badge">hidden page loaded successfully</div>
+      <h1>璇璇生日附加页</h1>
+      <div class="intro">
+        这个页面没有什么惊天动地的功能，主要作用是证明这份礼物不是临时起意。
+      </div>
+
+      <div class="grid">
+        <div class="box">
+          <div class="small-title">status</div>
+          <strong>页面运行正常</strong>
+          <span>隐藏内容已加载。</span>
+        </div>
+        <div class="box">
+          <div class="small-title">today</div>
+          <strong>寿星已上线</strong>
+          <span>今天记得轻松一点。</span>
+        </div>
+        <div class="box">
+          <div class="small-title">note</div>
+          <strong>非群发模板</strong>
+          <span>而且确实是专门给你的。</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="top-row">
+          <div>
+            <h2>随机一句今天的话</h2>
+            <p>没有复杂功能，只有一点隐藏内容。</p>
+          </div>
+          <button onclick="pickMessage()">随便点一下</button>
+        </div>
+        <div class="message" id="messageBox">点一下试试看。</div>
+      </div>
+
+      <div class="secret-wrap">
+        <p>你要是已经看到这里了，说明这个彩蛋算是被认真打开了。</p>
+        <span class="secret-trigger" onclick="showSecret()">这里真的没东西</span>
+        <div class="secret-box" id="secretBox">
+          骗你的。生日快乐，璇璇。希望你拆到这里的时候，会笑一下。
+        </div>
+      </div>
+
+      <div class="footer">
+        页面到这里就差不多了，再往下翻也不会掉出第二份 Apple Watch。
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const messages = [
+      "今天适合开心一点。",
+      "礼物拆到这里，说明你很认真。",
+      "这个链接确实不是凑数的。",
+      "生日快乐，璇璇。",
+      "希望你今天有一点小惊喜。",
+      "检测结果：今天的你适合被温柔对待。",
+      "你能点到这里，说明隐藏内容已生效。",
+      "希望你今年比去年更轻松一点。",
+      "今天的关键词：顺利、轻松、好心情。",
+      "好吧，这页确实是专门给你的。"
+    ];
+
+    function pickMessage() {
+      const random = messages[Math.floor(Math.random() * messages.length)];
+      document.getElementById("messageBox").textContent = random;
+    }
+
+    function showSecret() {
+      const box = document.getElementById("secretBox");
+      box.style.display = "block";
+    }
+  </script>
+</body>
+</html>
