@@ -309,53 +309,28 @@
       white-space: pre-line;
     }
 
-    /* first page */
-    .question-box {
-      margin-top: 22px;
-      padding: 18px;
-      border-radius: 20px;
-      background: #faf6ff;
-      border: 1px solid #eadffd;
+    .welcome-card {
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
     }
 
-    .question {
-      font-size: 17px;
-      line-height: 1.9;
-      color: #574d65;
+    .welcome-card h1 {
+      font-size: 40px;
     }
 
-    .options {
-      margin-top: 18px;
-      display: grid;
-      gap: 12px;
+    .ribbon {
+      width: 96px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #d8c7ff, #efdae8);
+      margin: 28px auto 0;
+      opacity: .85;
+      box-shadow: 0 6px 16px rgba(168,141,219,.2);
     }
 
-    .option-btn {
-      text-align: left;
-      padding: 14px 16px;
-      border-radius: 18px;
-      border: 1px solid #e5d8ff;
-      background: white;
-      color: #6a5f79;
-      font-size: 15px;
-      cursor: pointer;
-      transition: all .2s ease;
-    }
-
-    .option-btn:hover {
-      background: #f7f1ff;
-      transform: translateY(-1px);
-    }
-
-    .answer-tip {
-      margin-top: 18px;
-      min-height: 52px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: #856fa9;
-    }
-
-    /* second page */
     .layer-note {
       margin-top: 22px;
       padding: 16px 18px;
@@ -391,7 +366,6 @@
       white-space: pre-line;
     }
 
-    /* third page */
     .letter-paper {
       background: var(--paper);
       border-radius: 22px;
@@ -449,7 +423,23 @@
       white-space: pre-line;
     }
 
-    /* action positions */
+    .egg-page {
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .egg-page p {
+      margin-top: 16px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: #736882;
+      max-width: 520px;
+    }
+
     .frame-action {
       position: absolute;
       right: 28px;
@@ -481,6 +471,24 @@
       border: 1px solid #e6dbff;
       color: #7a64a7;
       font-size: 13px;
+    }
+
+    .egg-btn {
+      border: 1px solid #e5d8ff;
+      background: linear-gradient(180deg, #fbf8ff, #f2eaff);
+      color: #755f9d;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .2s ease;
+      box-shadow: 0 8px 18px rgba(135, 108, 183, 0.10);
+      margin-top: 18px;
+    }
+
+    .egg-btn:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, #f8f2ff, #eee3ff);
     }
 
     .controls {
@@ -541,6 +549,106 @@
       color: #9b90ab;
     }
 
+    .chibi-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(49, 35, 69, 0.32);
+      backdrop-filter: blur(8px);
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .chibi-overlay.show {
+      display: flex;
+    }
+
+    .chibi-stage {
+      width: min(92vw, 560px);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(230, 219, 255, 0.95);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgba(89, 63, 130, 0.18);
+      padding: 20px 20px 18px;
+      position: relative;
+      transform: translateY(24px) scale(.96);
+      opacity: 0;
+    }
+
+    .chibi-stage.show {
+      animation: chibiPop .55s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+
+    @keyframes chibiPop {
+      0% {
+        transform: translateY(28px) scale(.94);
+        opacity: 0;
+      }
+      65% {
+        transform: translateY(-4px) scale(1.02);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .chibi-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: #f3ebff;
+      color: #7b64a7;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .chibi-close:hover {
+      background: #eadfff;
+    }
+
+    .chibi-caption {
+      text-align: center;
+      font-size: 14px;
+      color: #8b7aa5;
+      margin: 4px 34px 14px;
+    }
+
+    .chibi-scene-img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      transform: translateY(24px);
+      opacity: 0;
+    }
+
+    .chibi-scene-img.show {
+      animation: sceneRise .7s .08s cubic-bezier(.22,.9,.24,1) forwards;
+    }
+
+    @keyframes sceneRise {
+      0% {
+        transform: translateY(24px);
+        opacity: 0;
+      }
+      70% {
+        transform: translateY(-3px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     @media (max-width: 760px) {
       .shell { min-height: auto; }
       .inner { min-height: auto; padding: 18px 14px 16px; }
@@ -549,7 +657,10 @@
         padding: 24px 18px 84px;
       }
       h1, h2 { font-size: 28px; }
-      .subtext, .letter-body, .question { font-size: 15px; }
+      .subtext, .letter-body { font-size: 15px; }
+      .welcome-card h1 {
+        font-size: 30px;
+      }
       .letter-paper {
         padding: 20px 16px 78px;
       }
@@ -593,7 +704,7 @@
 
     <div class="inner">
       <div class="meta">
-        <div class="badge" id="pageLabel">01 / 问答</div>
+        <div class="badge" id="pageLabel">01 / 祝福</div>
         <div class="meta-right">
           <div class="site-name">璇璇生日附加页</div>
           <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
@@ -604,22 +715,16 @@
         <!-- page 1 -->
         <section class="page active" id="page0">
           <div class="frame">
-            <div class="frame-inner">
-              <div class="mini">question</div>
-              <h1>先回答一个小问题</h1>
-              <div class="subtext">为了打开这一页，你觉得最应该带上的是什么？</div>
+            <div class="frame-inner welcome-card">
+              <div class="mini">birthday card</div>
+              <h1>给璇璇的一页生日祝福</h1>
+              <div class="subtext">生日快乐。
+愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。</div>
+              <div class="ribbon"></div>
+            </div>
 
-              <div class="question-box">
-                <div class="question">
-                  如果要认真拆开一份为你准备的礼物，最适合带上的会是哪一样？
-                </div>
-                <div class="options">
-                  <button class="option-btn" onclick="answerQuestion('一点好奇心')">A. 一点好奇心</button>
-                  <button class="option-btn" onclick="answerQuestion('一点耐心')">B. 一点耐心</button>
-                  <button class="option-btn" onclick="answerQuestion('一点温柔')">C. 一点温柔</button>
-                </div>
-                <div class="answer-tip" id="answerTip"></div>
-              </div>
+            <div class="frame-action">
+              <button class="frame-btn" onclick="goToPage(1)">继续往下看</button>
             </div>
           </div>
         </section>
@@ -642,7 +747,7 @@
             </div>
 
             <div class="frame-action">
-              <button class="frame-btn" onclick="goToPage(2)">继续拆开</button>
+              <button class="frame-btn" onclick="goToPage(2)">继续往下看</button>
             </div>
           </div>
         </section>
@@ -724,11 +829,30 @@
 然后一直一直，过得比想象中更幸福一点。
 
 —— 徐源</div>
-
-                <div class="frame-action" style="right: 18px; bottom: 18px;">
-                  <div class="frame-tag">信件</div>
-                </div>
               </div>
+            </div>
+
+            <div class="frame-action">
+              <button class="frame-btn" onclick="goToPage(3)">还有最后一页</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- page 4 -->
+        <section class="page" id="page3">
+          <div class="frame">
+            <div class="frame-inner egg-page">
+              <div class="mini">final page</div>
+              <h2>还有最后一个小彩蛋</h2>
+              <p>
+                如果你已经看到这里了，那这份礼物里藏着的小心思，
+                应该也算被你好好收到啦。
+              </p>
+              <button class="egg-btn" onclick="openChibiScene()">for 最好的璇璇</button>
+            </div>
+
+            <div class="frame-action">
+              <div class="frame-tag">最后一页</div>
             </div>
           </div>
         </section>
@@ -747,25 +871,37 @@
     </div>
   </div>
 
+  <div class="chibi-overlay" id="chibiOverlay" onclick="closeChibiScene(event)">
+    <div class="chibi-stage" id="chibiStage">
+      <button class="chibi-close" onclick="forceCloseChibiScene()" type="button">×</button>
+      <div class="chibi-caption">生日快乐，璇璇。</div>
+      <img src="chibi-cake.png" alt="生日彩蛋插画" class="chibi-scene-img" id="chibiSceneImg" />
+    </div>
+  </div>
+
   <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
   <audio id="voice" src="voice.m4a" preload="auto"></audio>
 
   <script>
-    const labels = ["01 / 问答", "02 / 夹层", "03 / 信"];
+    const labels = ["01 / 祝福", "02 / 夹层", "03 / 信", "04 / 彩蛋"];
     let currentStep = 0;
     let voicePlayed = false;
     let musicEnabled = true;
-    let answered = false;
 
     const pages = [
       document.getElementById("page0"),
       document.getElementById("page1"),
-      document.getElementById("page2")
+      document.getElementById("page2"),
+      document.getElementById("page3")
     ];
 
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
+
+    const chibiOverlay = document.getElementById("chibiOverlay");
+    const chibiStage = document.getElementById("chibiStage");
+    const chibiSceneImg = document.getElementById("chibiSceneImg");
 
     bgm.volume = 0.28;
     voice.volume = 1.0;
@@ -841,8 +977,6 @@
         const dot = document.createElement("div");
         dot.className = i === currentStep ? "dot active" : "dot";
         dot.onclick = () => {
-          if (i === 1 && !answered) return;
-          if (i === 2 && currentStep < 2) return;
           currentStep = i;
           renderPage();
         };
@@ -867,15 +1001,29 @@
       box.style.display = box.style.display === "block" ? "none" : "block";
     }
 
-    function answerQuestion(choice) {
-      if (answered) return;
-      answered = true;
+    function openChibiScene() {
+      chibiOverlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+      chibiStage.classList.remove("show");
+      chibiSceneImg.classList.remove("show");
 
-      const tip = document.getElementById("answerTip");
-      tip.textContent = `你选了「${choice}」。其实哪一个都可以，只要你愿意把这份小心思认真看完。`;
-      setTimeout(() => {
-        goToPage(1);
-      }, 950);
+      requestAnimationFrame(() => {
+        chibiStage.classList.add("show");
+        chibiSceneImg.classList.add("show");
+      });
+    }
+
+    function closeChibiScene(event) {
+      if (event.target === chibiOverlay) {
+        forceCloseChibiScene();
+      }
+    }
+
+    function forceCloseChibiScene() {
+      chibiOverlay.classList.remove("show");
+      chibiStage.classList.remove("show");
+      chibiSceneImg.classList.remove("show");
+      document.body.style.overflow = "";
     }
 
     window.addEventListener("load", () => {
