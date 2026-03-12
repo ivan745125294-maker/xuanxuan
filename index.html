@@ -12,6 +12,7 @@
       --bg2: #fcfbff;
       --bg3: #f3ecff;
       --text: #4b4358;
+      --paper: #fffdf9;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
     }
 
@@ -246,10 +247,15 @@
       margin-bottom: 18px;
     }
 
-    .gift-card {
+    .gift-float {
       width: 100%;
       max-width: 760px;
       margin: 0 auto;
+      animation: floatCard 3.8s ease-in-out infinite;
+    }
+
+    .gift-card {
+      width: 100%;
       position: relative;
       border-radius: 30px;
       padding: 38px 28px;
@@ -258,7 +264,6 @@
       box-shadow: 0 16px 40px rgba(104,82,145,.08);
       text-align: center;
       overflow: hidden;
-      animation: floatCard 3.8s ease-in-out infinite;
       transition: transform .2s ease;
     }
 
@@ -438,6 +443,18 @@
       color: #655c73;
       line-height: 1.8;
       white-space: pre-line;
+      animation: fadeSecret .35s ease;
+    }
+
+    @keyframes fadeSecret {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .letter-shell {
@@ -530,6 +547,22 @@
       font-size: 15px;
       line-height: 2;
       white-space: pre-line;
+    }
+
+    .final-blessing {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 18px;
+      color: #8d78b6;
+      letter-spacing: .04em;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .final-blessing.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .controls {
@@ -651,18 +684,20 @@
         <div class="badge" id="pageLabel">01 / 祝福</div>
         <div class="meta-right">
           <div class="site-name">璇璇生日附加页</div>
-          <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
+          <button class="music-btn" id="musicToggle" type="button">♪ 打开音乐</button>
         </div>
       </div>
 
       <div class="stage">
         <section class="page active" id="page0">
-          <div class="gift-card" id="giftCard">
-            <div class="mini">birthday card</div>
-            <h1>给璇璇的一页生日祝福</h1>
-            <div class="gift-sub">生日快乐。
-愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。</div>
-            <div class="ribbon"></div>
+          <div class="gift-float">
+            <div class="gift-card" id="giftCard">
+              <div class="mini">birthday card</div>
+              <h1>璇璇，生日快乐</h1>
+              <div class="gift-sub">这一页不是普通链接，
+是今天只给你打开的一小段心意。</div>
+              <div class="ribbon"></div>
+            </div>
           </div>
         </section>
 
@@ -680,8 +715,9 @@
 这一页只是想让整份礼物更完整一点。</div>
 
               <span class="tiny-trigger" onclick="toggleSecret()">这里还有一句小小的补充</span>
-              <div class="tiny-secret" id="tinySecret">有些心意不一定适合放在最显眼的地方，
-但藏在这里，好像刚刚好。</div>
+              <div class="tiny-secret" id="tinySecret">不是所有心意都适合大张旗鼓，
+但给你看的这一点点认真，
+我还是想悄悄放进来。</div>
             </div>
           </div>
         </section>
@@ -760,6 +796,8 @@
 然后一直一直，过得比想象中更幸福一点。
 
 —— 徐源</div>
+
+              <div class="final-blessing" id="finalBlessing">生日快乐，璇璇 ✦</div>
             </div>
           </div>
         </section>
@@ -786,9 +824,11 @@
   <script>
     const labels = ["01 / 祝福", "02 / 夹层", "03 / 信"];
     const buttons = ["继续往下看", "打开最后一层", "再看一遍"];
+
     let currentStep = 0;
     let voicePlayed = false;
     let musicEnabled = true;
+    let blessingTimer = null;
 
     const pages = [
       document.getElementById("page0"),
@@ -799,30 +839,43 @@
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
+    const finalBlessing = document.getElementById("finalBlessing");
 
     bgm.volume = 0.28;
     voice.volume = 1.0;
 
+    function updateMusicButton() {
+      musicToggle.textContent = (!bgm.paused && musicEnabled) ? "♪ 关闭音乐" : "♪ 打开音乐";
+    }
+
     async function tryPlayBgm() {
-      if (!musicEnabled) return;
+      if (!musicEnabled) {
+        updateMusicButton();
+        return;
+      }
+
       try {
         await bgm.play();
-        musicToggle.textContent = "♪ 音乐开";
       } catch (e) {
-        musicToggle.textContent = "♪ 点我开音乐";
+        // 移动端首次自动播放可能会被拦截
+      }
+      updateMusicButton();
+    }
+
+    function restoreBgmVolume() {
+      if (!bgm.paused && musicEnabled) {
+        bgm.volume = 0.28;
       }
     }
 
-    function updateMusicButton() {
-      if (bgm.paused || !musicEnabled) {
-        musicToggle.textContent = "♪ 音乐关";
-      } else {
-        musicToggle.textContent = "♪ 音乐开";
-      }
+    function stopVoiceAndRestore() {
+      voice.pause();
+      voice.currentTime = 0;
+      restoreBgmVolume();
     }
 
     musicToggle.addEventListener("click", async () => {
-      if (bgm.paused) {
+      if (bgm.paused || !musicEnabled) {
         musicEnabled = true;
         try {
           await bgm.play();
@@ -836,38 +889,21 @@
 
     async function playVoiceOnPage3() {
       if (voicePlayed) return;
+
       voicePlayed = true;
 
       try {
-        if (!bgm.paused) {
+        if (!bgm.paused && musicEnabled) {
           bgm.volume = 0.08;
         }
         voice.currentTime = 0;
         await voice.play();
-      } catch (e) {
-        // 移动端如果拦截也不报错
-      }
+      } catch (e) {}
     }
 
     voice.addEventListener("ended", () => {
-      if (!bgm.paused && musicEnabled) {
-        bgm.volume = 0.28;
-      }
+      restoreBgmVolume();
     });
-
-    function renderPage() {
-      pages.forEach((page, index) => {
-        page.classList.toggle("active", index === currentStep);
-      });
-
-      document.getElementById("pageLabel").textContent = labels[currentStep];
-      document.getElementById("nextBtn").textContent = buttons[currentStep];
-      renderDots();
-
-      if (currentStep === 2) {
-        playVoiceOnPage3();
-      }
-    }
 
     function renderDots() {
       const dotsWrap = document.getElementById("dots");
@@ -881,6 +917,31 @@
           renderPage();
         };
         dotsWrap.appendChild(dot);
+      }
+    }
+
+    function renderPage() {
+      pages.forEach((page, index) => {
+        page.classList.toggle("active", index === currentStep);
+      });
+
+      document.getElementById("pageLabel").textContent = labels[currentStep];
+      document.getElementById("nextBtn").textContent = buttons[currentStep];
+      renderDots();
+
+      clearTimeout(blessingTimer);
+      finalBlessing.classList.remove("show");
+
+      if (currentStep === 2) {
+        playVoiceOnPage3();
+
+        blessingTimer = setTimeout(() => {
+          if (currentStep === 2) {
+            finalBlessing.classList.add("show");
+          }
+        }, 2200);
+      } else {
+        stopVoiceAndRestore();
       }
     }
 
@@ -907,7 +968,6 @@
         loading.classList.add("hidden");
         shell.classList.add("ready");
         await tryPlayBgm();
-        updateMusicButton();
       }, 1050);
     });
 
@@ -926,12 +986,14 @@
       if (giftCard) {
         giftCard.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
       }
+
       if (layerFront) {
         layerFront.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
       }
     });
 
     renderPage();
+    updateMusicButton();
   </script>
 </body>
 </html>
