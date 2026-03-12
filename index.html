@@ -528,7 +528,7 @@
 
     .chibi-inline {
       margin-top: 18px;
-      width: min(100%, 460px);
+      width: min(100%, 470px);
       opacity: 0;
       max-height: 0;
       overflow: hidden;
@@ -542,24 +542,26 @@
 
     .chibi-inline img {
       width: 100%;
+      max-height: 380px;
+      object-fit: contain;
       display: block;
       border-radius: 20px;
       box-shadow: none;
-      transform: translateY(24px) scale(.96);
+      transform: translateY(20px) scale(.96);
       opacity: 0;
     }
 
     .chibi-inline.show img {
-      animation: riseInline .7s cubic-bezier(.22,.9,.24,1) forwards;
+      animation: riseInline .6s cubic-bezier(.22,.9,.24,1) forwards;
     }
 
     @keyframes riseInline {
       0% {
-        transform: translateY(24px) scale(.96);
+        transform: translateY(20px) scale(.96);
         opacity: 0;
       }
       70% {
-        transform: translateY(-3px) scale(1.01);
+        transform: translateY(-4px) scale(1.01);
         opacity: 1;
       }
       100% {
@@ -679,13 +681,16 @@
 
         <section class="page" id="page3">
           <div class="frame">
-            <div class="frame-inner egg-page">
-              <div class="mini" id="p4Mini"></div>
-              <h2 id="p4Title"></h2>
-              <p id="p4Text"></p>
-              <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
+            <div class="frame-inner egg-page" id="eggPage">
+              <div class="egg-copy" id="eggCopy">
+                <div class="mini" id="p4Mini"></div>
+                <h2 id="p4Title"></h2>
+                <p id="p4Text"></p>
+                <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
+              </div>
+
               <div class="chibi-inline" id="chibiInline">
-                <img src="./chibi-cake.png?v=2" alt="生日彩蛋插画" id="chibiSceneImg" />
+                <img src="./chibi-cake.png?v=3" alt="生日彩蛋插画" id="chibiSceneImg" />
               </div>
             </div>
             <div class="frame-action">
@@ -728,8 +733,8 @@
       page2: {
         mini: "hidden layer",
         title: "这一页算礼物里的隐藏小夹层",
-        text: "这里写你想放的第一段内容",
-        note: "这里写你想放的第二段内容",
+        text: "第一段:2021年冬季的一段DC小对话开始，我认识了一个女孩，她有点不同，喜欢玩上单，偶尔也会骂人，但是对我却从来是最温柔的那一个。",
+        note: "第二段:后来我慢慢发现，有些人在心里的位置，并不是靠聊天多少来决定的。哪怕不是每天都说很多话，哪怕中间隔着时间和距离，可只要想起她的时候，心里还是会很自然地软一下。你对我来说，一直都是这样的人。",
         btn: "继续往下看"
       },
 
@@ -837,6 +842,7 @@
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
     const chibiInline = document.getElementById("chibiInline");
+    const eggPage = document.getElementById("eggPage");
 
     bgm.volume = 0.26;
     voice.volume = 1.0;
@@ -958,16 +964,19 @@
     async function openChibiScene() {
       await ensureBgmStarted();
 
-      chibiOpened = !chibiOpened;
-      chibiInline.classList.toggle("show", chibiOpened);
+      if (!chibiOpened) {
+        chibiOpened = true;
+        eggPage.classList.add("reveal");
+        chibiInline.classList.add("show");
 
-      if (!voicePlayed) {
-        voicePlayed = true;
-        try {
-          if (!bgm.paused) bgm.volume = 0.08;
-          voice.currentTime = 0;
-          await voice.play();
-        } catch (e) {}
+        if (!voicePlayed) {
+          voicePlayed = true;
+          try {
+            if (!bgm.paused) bgm.volume = 0.08;
+            voice.currentTime = 0;
+            await voice.play();
+          } catch (e) {}
+        }
       }
     }
 
