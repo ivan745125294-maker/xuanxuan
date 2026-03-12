@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>璇璇生日附加页</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     :root {
       --bg1: #f8f4ff;
@@ -14,20 +14,60 @@
       --text: #4b4358;
       --paper: #fffdf9;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
+      --card-border: rgba(232,222,248,.95);
+      --lavender: #d8c7ff;
+      --pink: #efdae8;
+      --deep: #43384f;
+      --soft: #6a6177;
     }
 
-    body {
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100%;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
         "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 46%, var(--bg3) 100%);
       color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 18px;
-      overflow-x: hidden;
+      position: relative;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 0 12px rgba(255,255,255,.75);
+      opacity: .55;
+      animation: twinkle 3.6s ease-in-out infinite;
+    }
+
+    .star.s1 { top: 12%; left: 14%; animation-delay: .1s; }
+    .star.s2 { top: 22%; left: 78%; animation-delay: .8s; }
+    .star.s3 { top: 64%; left: 9%; animation-delay: 1.2s; }
+    .star.s4 { top: 74%; left: 85%; animation-delay: .6s; }
+    .star.s5 { top: 45%; left: 88%; animation-delay: 1.8s; width: 4px; height: 4px; }
+    .star.s6 { top: 18%; left: 48%; animation-delay: 1.1s; width: 4px; height: 4px; }
+
+    @keyframes twinkle {
+      0%,100% { opacity: .3; transform: scale(.9); }
+      50% { opacity: .95; transform: scale(1.3); }
     }
 
     .loading-screen {
@@ -51,8 +91,8 @@
       width: min(88vw, 460px);
       border-radius: 28px;
       padding: 28px 24px;
-      background: rgba(255,255,255,.82);
-      border: 1px solid rgba(223, 211, 247, .9);
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(223, 211, 247, .95);
       box-shadow: 0 20px 60px rgba(118, 92, 167, 0.10);
       text-align: center;
       backdrop-filter: blur(8px);
@@ -94,7 +134,7 @@
       height: 100%;
       border-radius: 999px;
       background: linear-gradient(90deg, #d8c7ff, #efdae8, #d8c7ff);
-      animation: loadingBar 1.15s ease forwards;
+      animation: loadingBar 1.2s ease forwards;
     }
 
     @keyframes loadingBar {
@@ -104,18 +144,19 @@
 
     .shell {
       width: 100%;
-      max-width: 920px;
-      min-height: 700px;
-      background: rgba(255,255,255,0.9);
-      border: 1px solid rgba(216,201,242,0.75);
+      max-width: 940px;
+      min-height: 720px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(216,201,242,0.78);
       border-radius: 34px;
       box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(8px);
       opacity: 0;
-      transform: translateY(10px) scale(.992);
-      transition: opacity .7s ease, transform .7s ease;
+      transform: translateY(12px) scale(.992);
+      transition: opacity .8s ease, transform .8s ease;
+      z-index: 1;
     }
 
     .shell.ready {
@@ -131,33 +172,33 @@
     .glow {
       position: absolute;
       border-radius: 999px;
-      filter: blur(56px);
+      filter: blur(60px);
       opacity: 0.42;
       pointer-events: none;
       transition: transform .25s ease;
     }
 
     .glow.one {
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
       background: #ddd0ff;
-      top: -80px;
-      right: -70px;
+      top: -88px;
+      right: -75px;
     }
 
     .glow.two {
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
       background: #ffd9ea;
-      bottom: -90px;
-      left: -70px;
+      bottom: -98px;
+      left: -75px;
     }
 
     .inner {
       position: relative;
       z-index: 1;
       padding: 22px 18px 18px;
-      min-height: 696px;
+      min-height: 716px;
       display: flex;
       flex-direction: column;
     }
@@ -208,6 +249,7 @@
 
     .music-btn:hover {
       background: #f0e7ff;
+      transform: translateY(-1px);
     }
 
     .stage {
@@ -216,12 +258,13 @@
       align-items: center;
       justify-content: center;
       padding: 8px 0 0;
+      position: relative;
     }
 
     .page {
       display: none;
       width: 100%;
-      animation: fadeUp .45s ease;
+      animation: fadeUp .5s ease;
     }
 
     .page.active {
@@ -231,7 +274,7 @@
     @keyframes fadeUp {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.985);
+        transform: translateY(20px) scale(0.986);
       }
       to {
         opacity: 1;
@@ -249,30 +292,33 @@
 
     .gift-float {
       width: 100%;
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
-      animation: floatCard 3.8s ease-in-out infinite;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
     }
 
     .gift-card {
       width: 100%;
       position: relative;
       border-radius: 30px;
-      padding: 38px 28px;
+      padding: 42px 28px;
       background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
-      border: 1px solid rgba(232,222,248,.95);
+      border: 1px solid var(--card-border);
       box-shadow: 0 16px 40px rgba(104,82,145,.08);
       text-align: center;
       overflow: hidden;
       transition: transform .2s ease;
     }
 
-    @keyframes floatCard {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
-    .gift-card::before {
+    .gift-card::before,
+    .envelope-card::before,
+    .letter-paper::after,
+    .ending-card::before {
       content: "";
       position: absolute;
       inset: 14px;
@@ -281,7 +327,8 @@
       pointer-events: none;
     }
 
-    .gift-card::after {
+    .gift-card::after,
+    .ending-card::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -293,23 +340,26 @@
     }
 
     .gift-card h1,
-    .layer-front h2 {
+    .envelope-main h2,
+    .ending-title,
+    .letter-title {
       margin: 0;
-      font-size: 38px;
+      font-size: 40px;
       line-height: 1.22;
       letter-spacing: -0.02em;
-      color: #43384f;
+      color: var(--deep);
       font-weight: 600;
       white-space: pre-line;
     }
 
     .gift-sub,
-    .layer-sub {
-      max-width: 560px;
+    .envelope-sub,
+    .ending-sub {
+      max-width: 600px;
       margin: 22px auto 0;
       font-size: 17px;
       line-height: 2;
-      color: #6a6177;
+      color: var(--soft);
       white-space: pre-line;
     }
 
@@ -319,142 +369,212 @@
       border-radius: 999px;
       background: linear-gradient(90deg, #d8c7ff, #efdae8);
       margin: 28px auto 0;
-      opacity: .85;
+      opacity: .88;
       box-shadow: 0 6px 16px rgba(168,141,219,.2);
     }
 
-    .layer-stack {
+    .open-tip {
+      margin-top: 24px;
+      font-size: 13px;
+      color: #978baa;
+      letter-spacing: .08em;
+    }
+
+    .tap-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: #f6f0ff;
+      border: 1px solid #e7dbff;
+      color: #866ab8;
+      font-size: 13px;
+      animation: pulseBadge 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseBadge {
+      0%,100% { transform: scale(1); opacity: .9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+
+    .envelope-wrap {
       width: 100%;
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
+      perspective: 1200px;
+    }
+
+    .envelope-card {
       position: relative;
-      min-height: 430px;
-    }
-
-    .layer-back,
-    .layer-mid,
-    .layer-front {
-      border-radius: 28px;
-      box-shadow: 0 16px 40px rgba(106,84,149,.08);
-    }
-
-    .layer-back {
-      position: absolute;
-      left: 50%;
-      top: 42px;
-      transform: translateX(-50%);
-      width: 90%;
-      height: 312px;
-      background: linear-gradient(180deg,#efe6ff,#f7f2ff);
-      border: 1px solid #e6d8ff;
-      transition: transform .45s ease;
-    }
-
-    .layer-mid {
-      position: absolute;
-      left: 50%;
-      top: 22px;
-      transform: translateX(-50%);
-      width: 95%;
-      height: 322px;
-      background: linear-gradient(180deg,#fbf7ff,#f7f0ff);
-      border: 1px solid #eadffd;
-      transition: transform .45s ease;
-    }
-
-    .page.active .layer-back {
-      transform: translateX(-50%) translateY(8px);
-    }
-
-    .page.active .layer-mid {
-      transform: translateX(-50%) translateY(4px);
-    }
-
-    .layer-front {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      min-height: 352px;
-      background: rgba(255,255,255,.96);
-      border: 1px solid #eee3ff;
-      padding: 28px 24px;
+      border-radius: 30px;
+      padding: 34px 24px 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 40px rgba(104,82,145,.08);
       overflow: hidden;
-      animation: pullOut .6s ease;
-      transition: transform .25s ease;
+      min-height: 460px;
     }
 
-    @keyframes pullOut {
-      from {
-        opacity: .2;
-        transform: translateY(26px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .envelope-main {
+      text-align: center;
+      transition: opacity .4s ease, transform .4s ease;
     }
 
-    .layer-front::before {
-      content: "";
+    .envelope-shell {
+      margin: 28px auto 0;
+      width: min(100%, 440px);
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transform-style: preserve-3d;
+      transition: transform .22s ease;
+    }
+
+    .envelope-shell:active {
+      transform: scale(.985);
+    }
+
+    .envelope-top {
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      height: 8px;
-      background: linear-gradient(90deg,#e6d8ff,#f2ddea,#e6d8ff);
-      opacity: .9;
+      width: 100%;
+      height: 110px;
+      background: linear-gradient(180deg, #f3e9ff, #eadbff);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform .8s cubic-bezier(.2,.85,.2,1);
+      z-index: 3;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      box-shadow: 0 10px 24px rgba(111, 87, 155, .10);
     }
 
-    .layer-sub {
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    .layer-tip {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: #faf6ff;
-      border: 1px dashed #dfcffd;
-      color: #7a6f88;
-      font-size: 14px;
-      line-height: 1.9;
-      white-space: pre-line;
-    }
-
-    .tiny-trigger {
-      margin-top: 18px;
-      display: inline-block;
-      color: #866ab8;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .tiny-secret {
-      display: none;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: #fff;
+    .envelope-base {
+      position: relative;
+      width: 100%;
+      height: 270px;
+      margin-top: 74px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #fffafc, #f7f0ff);
       border: 1px solid #eadffd;
-      font-size: 14px;
-      color: #655c73;
-      line-height: 1.8;
-      white-space: pre-line;
-      animation: fadeSecret .35s ease;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
     }
 
-    @keyframes fadeSecret {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .envelope-base::before,
+    .envelope-base::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(245,236,255,.75), rgba(239,226,255,.95));
+      z-index: 1;
+    }
+
+    .envelope-base::before {
+      left: 0;
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+
+    .envelope-base::after {
+      right: 0;
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    .seal {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #f0dff8, #dcc2ff);
+      box-shadow: 0 10px 24px rgba(145, 113, 196, .20);
+      color: #7b5dae;
+      font-size: 13px;
+      letter-spacing: .08em;
+      border: 1px solid rgba(255,255,255,.7);
+      transition: transform .32s ease, opacity .32s ease;
+    }
+
+    .secret-letter {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%) translateY(0);
+      width: calc(100% - 42px);
+      min-height: 188px;
+      background: linear-gradient(180deg, #fffefc, #fffaf4);
+      border-radius: 18px;
+      border: 1px solid #efe3d7;
+      padding: 20px 18px;
+      z-index: 0;
+      transition: transform .85s cubic-bezier(.2,.85,.2,1), box-shadow .85s ease;
+      box-shadow: 0 8px 20px rgba(120,100,150,.06);
+      overflow: hidden;
+    }
+
+    .secret-letter::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 60px;
+      bottom: 14px;
+      background-image: linear-gradient(to bottom, rgba(210,198,225,.16) 1px, transparent 1px);
+      background-size: 100% 28px;
+      pointer-events: none;
+    }
+
+    .secret-inner {
+      position: relative;
+      z-index: 1;
+      text-align: left;
+    }
+
+    .secret-head {
+      font-size: 18px;
+      color: var(--deep);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .secret-text {
+      font-size: 15px;
+      color: #665d73;
+      line-height: 2.05;
+      white-space: pre-line;
+    }
+
+    .envelope-hint {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 13px;
+      color: #9a90aa;
+      letter-spacing: .03em;
+    }
+
+    .envelope-shell.open .envelope-top {
+      transform: rotateX(178deg);
+    }
+
+    .envelope-shell.open .secret-letter {
+      transform: translateX(-50%) translateY(-118px);
+      box-shadow: 0 20px 42px rgba(120,100,150,.12);
+    }
+
+    .envelope-shell.open .seal {
+      transform: translateX(-50%) scale(.8);
+      opacity: 0;
     }
 
     .letter-shell {
@@ -516,9 +636,7 @@
     }
 
     .letter-title {
-      font-size: 28px;
-      color: #43384f;
-      font-weight: 600;
+      font-size: 29px;
     }
 
     .letter-mark {
@@ -538,31 +656,118 @@
       min-height: 310px;
     }
 
-    .letter-sign {
+    .voice-chip {
       position: relative;
       z-index: 1;
       margin-top: 18px;
-      text-align: right;
-      color: #7b7089;
-      font-size: 15px;
-      line-height: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f8f2ff;
+      border: 1px solid #eadffd;
+      color: #7e67aa;
+      font-size: 13px;
+    }
+
+    .voice-chip .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #b38cf1;
+      box-shadow: 0 0 0 0 rgba(179, 140, 241, .5);
+      animation: pulseDot 1.6s infinite;
+    }
+
+    @keyframes pulseDot {
+      0% { box-shadow: 0 0 0 0 rgba(179, 140, 241, .5); }
+      70% { box-shadow: 0 0 0 10px rgba(179, 140, 241, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(179, 140, 241, 0); }
+    }
+
+    .ending-wrap {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .ending-card {
+      position: relative;
+      border-radius: 30px;
+      padding: 40px 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 40px rgba(104,82,145,.08);
+      text-align: center;
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ending-title {
+      font-size: 42px;
+    }
+
+    .ending-sub {
+      max-width: 520px;
+    }
+
+    .ending-stamp {
+      margin-top: 24px;
+      width: 84px;
+      height: 84px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #f1e3ff, #ddc7ff);
+      color: #7a5da8;
+      font-size: 14px;
+      letter-spacing: .08em;
+      box-shadow: 0 14px 28px rgba(145, 113, 196, .18);
+      border: 1px solid rgba(255,255,255,.72);
+      animation: stampFloat 3.2s ease-in-out infinite;
+    }
+
+    @keyframes stampFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .ending-line {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #9589a8;
+      line-height: 1.9;
       white-space: pre-line;
     }
 
-    .final-blessing {
-      text-align: center;
-      margin-top: 22px;
-      font-size: 18px;
-      color: #8d78b6;
-      letter-spacing: .04em;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity .8s ease, transform .8s ease;
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    .final-blessing.show {
-      opacity: 1;
-      transform: translateY(0);
+    .spark {
+      position: absolute;
+      font-size: 18px;
+      opacity: .75;
+      animation: floatSpark 5s linear infinite;
+    }
+
+    .spark:nth-child(1) { left: 18%; top: 20%; animation-delay: 0s; }
+    .spark:nth-child(2) { left: 80%; top: 24%; animation-delay: 1.1s; }
+    .spark:nth-child(3) { left: 12%; top: 70%; animation-delay: 2s; }
+    .spark:nth-child(4) { left: 86%; top: 66%; animation-delay: 2.8s; }
+
+    @keyframes floatSpark {
+      0%,100% { transform: translateY(0) scale(1); opacity: .35; }
+      50% { transform: translateY(-12px) scale(1.12); opacity: .9; }
     }
 
     .controls {
@@ -641,16 +846,44 @@
       font-size: 13px;
       line-height: 1.8;
       color: #9b90ab;
+      min-height: 24px;
+    }
+
+    .touch-bloom {
+      position: fixed;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255,255,255,.9) 0%, rgba(228,212,255,.55) 40%, rgba(228,212,255,0) 75%);
+      transform: translate(-50%, -50%) scale(.4);
+      animation: bloom .7s ease forwards;
+      z-index: 5;
+    }
+
+    @keyframes bloom {
+      to {
+        transform: translate(-50%, -50%) scale(4.2);
+        opacity: 0;
+      }
     }
 
     @media (max-width: 760px) {
-      .shell { min-height: auto; }
-      .inner { min-height: auto; padding: 18px 14px 16px; }
-      .gift-card { padding: 28px 18px; }
-      .gift-card h1, .layer-front h2 { font-size: 29px; }
-      .gift-sub, .layer-sub, .letter-body { font-size: 15px; }
-      .layer-back, .layer-mid { display: none; }
-      .layer-front { min-height: 320px; }
+      body { padding: 12px; }
+      .shell { min-height: auto; border-radius: 28px; }
+      .inner { min-height: auto; padding: 16px 12px 14px; }
+      .gift-card,
+      .envelope-card,
+      .ending-card { padding: 30px 18px; }
+      .gift-card h1,
+      .envelope-main h2,
+      .ending-title,
+      .letter-title { font-size: 29px; }
+      .gift-sub,
+      .envelope-sub,
+      .ending-sub,
+      .letter-body,
+      .secret-text { font-size: 15px; }
       .letter-paper { padding: 24px 16px; }
       .letter-paper::before { left: 16px; right: 16px; }
       .letter-title { font-size: 24px; }
@@ -659,15 +892,30 @@
         align-items: stretch;
       }
       .btn-group { justify-content: center; }
+      .meta { margin-bottom: 14px; }
+      .site-name { display: none; }
+      .envelope-base { height: 240px; }
+      .secret-letter { min-height: 172px; }
+      .envelope-shell.open .secret-letter { transform: translateX(-50%) translateY(-96px); }
+      .ending-title { font-size: 32px; }
     }
   </style>
 </head>
 <body>
+  <div class="stars">
+    <div class="star s1"></div>
+    <div class="star s2"></div>
+    <div class="star s3"></div>
+    <div class="star s4"></div>
+    <div class="star s5"></div>
+    <div class="star s6"></div>
+  </div>
+
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-card">
       <div class="loading-title">birthday extra page</div>
       <div class="loading-text">正在打开璇璇的生日附加页…</div>
-      <div class="loading-sub">这一次不是普通链接，是礼物里的隐藏夹层。</div>
+      <div class="loading-sub">这一次不是普通链接，是礼物里专门留给你的小夹层。</div>
       <div class="progress">
         <div class="progress-bar"></div>
       </div>
@@ -681,7 +929,7 @@
 
     <div class="inner">
       <div class="meta">
-        <div class="badge" id="pageLabel">01 / 祝福</div>
+        <div class="badge" id="pageLabel">01 / 开场</div>
         <div class="meta-right">
           <div class="site-name">璇璇生日附加页</div>
           <button class="music-btn" id="musicToggle" type="button">♪ 打开音乐</button>
@@ -692,39 +940,59 @@
         <section class="page active" id="page0">
           <div class="gift-float">
             <div class="gift-card" id="giftCard">
-              <div class="mini">birthday card</div>
+              <div class="mini">birthday opening</div>
               <h1>璇璇，生日快乐</h1>
               <div class="gift-sub">这一页不是普通链接，
-是今天只给你打开的一小段心意。</div>
+是今天只给你打开的一小段心意。
+
+它不算很盛大，
+但每一层都是真的想过以后才放进来的。</div>
               <div class="ribbon"></div>
+              <div class="tap-badge">点一下，往里面再看一层</div>
             </div>
           </div>
         </section>
 
         <section class="page" id="page1">
-          <div class="layer-stack">
-            <div class="layer-back"></div>
-            <div class="layer-mid"></div>
-            <div class="layer-front" id="layerFront">
-              <div class="mini">hidden layer</div>
-              <h2>这一页算礼物里的隐藏小夹层</h2>
-              <div class="layer-sub">我们不是那种总有很多话要说的人，可你又一直都在。
-没有很喧闹，却也从来没有真正离开过。</div>
+          <div class="envelope-wrap">
+            <div class="envelope-card">
+              <div class="envelope-main" id="envelopeMain">
+                <div class="mini">hidden layer</div>
+                <h2>这里藏了一封小信封</h2>
+                <div class="envelope-sub">有些心意不适合一上来就全部说完。
+所以我把它折起来，放在这一层里。</div>
+              </div>
 
-              <div class="layer-tip">就像礼物盒里那张小信封一样，
-这一页只是想让整份礼物更完整一点。</div>
+              <div class="envelope-shell" id="envelopeShell" onclick="toggleEnvelope()">
+                <div class="envelope-top"></div>
+                <div class="seal">OPEN</div>
 
-              <span class="tiny-trigger" onclick="toggleSecret()">这里还有一句小小的补充</span>
-              <div class="tiny-secret" id="tinySecret">不是所有心意都适合大张旗鼓，
-但给你看的这一点点认真，
-我还是想悄悄放进来。</div>
+                <div class="envelope-base">
+                  <div class="secret-letter">
+                    <div class="secret-inner">
+                      <div class="secret-head">给你的隐藏补充</div>
+                      <div class="secret-text">我们不是那种总有很多话要说的人，
+可你又一直都在。
+
+不是很喧闹地存在着，
+却也从来没有真正离开过。
+
+所以这一页想说的其实很简单：
+有些认真，我没有写在最显眼的地方，
+但还是想悄悄留给你看。</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="envelope-hint" id="envelopeHint">点一下信封，把它打开</div>
             </div>
           </div>
         </section>
 
         <section class="page" id="page2">
           <div class="letter-shell">
-            <div class="letter-paper">
+            <div class="letter-paper" id="letterPaper">
               <div class="letter-head">
                 <div class="letter-title">写给璇璇的话</div>
                 <div class="letter-mark">letter</div>
@@ -788,16 +1056,39 @@
 还有这些藏在里面的小心思，
 最后能让你有一点点感动，
 或者只是让你在某个瞬间觉得心里暖了一下，
-那我就会觉得，这一切都很值得。
+那我就会觉得，这一切都很值得。</div>
 
-生日快乐，璇璇。
-也希望你以后一直都能遇到温柔的事，
-遇到真心对待你的人，
-然后一直一直，过得比想象中更幸福一点。
+              <div class="voice-chip" id="voiceChip">
+                <span class="pulse"></span>
+                <span>这一页会自动播放我留给你的语音</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
-—— 徐源</div>
+        <section class="page" id="page3">
+          <div class="ending-wrap">
+            <div class="ending-card" id="endingCard">
+              <div class="sparkles">
+                <div class="spark">✦</div>
+                <div class="spark">✧</div>
+                <div class="spark">✦</div>
+                <div class="spark">✧</div>
+              </div>
 
-              <div class="final-blessing" id="finalBlessing">生日快乐，璇璇 ✦</div>
+              <div class="mini">final page</div>
+              <div class="ending-title">生日快乐，璇璇</div>
+              <div class="ending-sub">希望你新的一岁平安、明亮、顺遂。
+希望你被认真对待，也被温柔包围。
+
+这份小礼物到这里就结束了，
+但我想留下来的心意，不会只停在这里。</div>
+
+              <div class="ending-stamp">For X</div>
+
+              <div class="ending-line">—— 徐源
+              
+点“再看一遍”，这份小礼物会重新打开。</div>
             </div>
           </div>
         </section>
@@ -812,7 +1103,7 @@
         <div class="dots" id="dots"></div>
       </div>
 
-      <div class="bottom-text">
+      <div class="bottom-text" id="bottomText">
         这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。
       </div>
     </div>
@@ -822,24 +1113,35 @@
   <audio id="voice" src="voice.m4a" preload="auto"></audio>
 
   <script>
-    const labels = ["01 / 祝福", "02 / 夹层", "03 / 信"];
-    const buttons = ["继续往下看", "打开最后一层", "再看一遍"];
+    const labels = ["01 / 开场", "02 / 信封", "03 / 话", "04 / 收尾"];
+    const buttons = ["打开里面那层", "去看我写的话", "收下最后一句", "再看一遍"];
+    const bottoms = [
+      "这一页不是为了热闹，只是想让她一打开就知道：这份小礼物是给她的。",
+      "有些话不适合一上来就说完，所以我把它折成了一封小信。",
+      "这一页会自动播放语音，把想说的话留得更真实一点。",
+      "到这里就结束了，但心意最好能在这里停一下。"
+    ];
 
     let currentStep = 0;
     let voicePlayed = false;
     let musicEnabled = true;
-    let blessingTimer = null;
+    let envelopeOpened = false;
 
     const pages = [
       document.getElementById("page0"),
       document.getElementById("page1"),
-      document.getElementById("page2")
+      document.getElementById("page2"),
+      document.getElementById("page3")
     ];
 
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
-    const finalBlessing = document.getElementById("finalBlessing");
+    const pageLabel = document.getElementById("pageLabel");
+    const nextBtn = document.getElementById("nextBtn");
+    const bottomText = document.getElementById("bottomText");
+    const envelopeShell = document.getElementById("envelopeShell");
+    const envelopeHint = document.getElementById("envelopeHint");
 
     bgm.volume = 0.28;
     voice.volume = 1.0;
@@ -856,9 +1158,7 @@
 
       try {
         await bgm.play();
-      } catch (e) {
-        // 移动端首次自动播放可能会被拦截
-      }
+      } catch (e) {}
       updateMusicButton();
     }
 
@@ -925,27 +1225,24 @@
         page.classList.toggle("active", index === currentStep);
       });
 
-      document.getElementById("pageLabel").textContent = labels[currentStep];
-      document.getElementById("nextBtn").textContent = buttons[currentStep];
+      pageLabel.textContent = labels[currentStep];
+      nextBtn.textContent = buttons[currentStep];
+      bottomText.textContent = bottoms[currentStep];
       renderDots();
-
-      clearTimeout(blessingTimer);
-      finalBlessing.classList.remove("show");
 
       if (currentStep === 2) {
         playVoiceOnPage3();
-
-        blessingTimer = setTimeout(() => {
-          if (currentStep === 2) {
-            finalBlessing.classList.add("show");
-          }
-        }, 2200);
       } else {
         stopVoiceAndRestore();
       }
     }
 
     function nextPage() {
+      if (currentStep === 1 && !envelopeOpened) {
+        toggleEnvelope();
+        return;
+      }
+
       currentStep = currentStep < pages.length - 1 ? currentStep + 1 : 0;
       renderPage();
     }
@@ -955,9 +1252,10 @@
       renderPage();
     }
 
-    function toggleSecret() {
-      const box = document.getElementById("tinySecret");
-      box.style.display = box.style.display === "block" ? "none" : "block";
+    function toggleEnvelope() {
+      envelopeOpened = !envelopeOpened;
+      envelopeShell.classList.toggle("open", envelopeOpened);
+      envelopeHint.textContent = envelopeOpened ? "已经打开啦，可以继续往下看" : "点一下信封，把它打开";
     }
 
     window.addEventListener("load", () => {
@@ -968,13 +1266,12 @@
         loading.classList.add("hidden");
         shell.classList.add("ready");
         await tryPlayBgm();
-      }, 1050);
+      }, 1100);
     });
 
     const glowOne = document.getElementById("glowOne");
     const glowTwo = document.getElementById("glowTwo");
     const giftCard = document.getElementById("giftCard");
-    const layerFront = document.getElementById("layerFront");
 
     document.addEventListener("mousemove", (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 12;
@@ -983,14 +1280,23 @@
       glowOne.style.transform = `translate(${x}px, ${y}px)`;
       glowTwo.style.transform = `translate(${-x}px, ${-y}px)`;
 
-      if (giftCard) {
-        giftCard.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-      }
-
-      if (layerFront) {
-        layerFront.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+      if (giftCard && currentStep === 0) {
+        giftCard.style.transform = `translate(${x * 0.14}px, ${y * 0.14}px)`;
       }
     });
+
+    document.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+
+      const bloom = document.createElement("div");
+      bloom.className = "touch-bloom";
+      bloom.style.left = touch.clientX + "px";
+      bloom.style.top = touch.clientY + "px";
+      document.body.appendChild(bloom);
+
+      setTimeout(() => bloom.remove(), 700);
+    }, { passive: true });
 
     renderPage();
     updateMusicButton();
