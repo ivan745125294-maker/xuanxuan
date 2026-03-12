@@ -11,13 +11,9 @@
       --bg1: #f8f4ff;
       --bg2: #fcfbff;
       --bg3: #f3ecff;
-      --violet: #a88ddb;
-      --violet-deep: #6d5a8b;
-      --violet-soft: #ece2ff;
       --text: #4b4358;
       --text-soft: #746b82;
       --paper: #fffdf9;
-      --line: #eadff7;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
     }
 
@@ -343,6 +339,36 @@
       white-space: pre-line;
     }
 
+    .memory-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .memory-card {
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid #eadffd;
+      box-shadow: 0 10px 24px rgba(127, 99, 174, .06);
+    }
+
+    .memory-card .label {
+      font-size: 12px;
+      color: #a18fbd;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .memory-card .content {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #665c75;
+      white-space: pre-line;
+    }
+
     .tiny-trigger {
       margin-top: 18px;
       display: inline-block;
@@ -438,6 +464,7 @@
       line-height: 1.9;
       color: #736882;
       max-width: 520px;
+      white-space: pre-line;
     }
 
     .frame-action {
@@ -567,7 +594,7 @@
 
     .chibi-stage {
       width: min(92vw, 560px);
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.95);
       border: 1px solid rgba(230, 219, 255, 0.95);
       border-radius: 28px;
       box-shadow: 0 24px 70px rgba(89, 63, 130, 0.18);
@@ -628,6 +655,9 @@
       border-radius: 20px;
       transform: translateY(24px);
       opacity: 0;
+      min-height: 180px;
+      object-fit: cover;
+      background: #faf7ff;
     }
 
     .chibi-scene-img.show {
@@ -658,9 +688,7 @@
       }
       h1, h2 { font-size: 28px; }
       .subtext, .letter-body { font-size: 15px; }
-      .welcome-card h1 {
-        font-size: 30px;
-      }
+      .welcome-card h1 { font-size: 30px; }
       .letter-paper {
         padding: 20px 16px 78px;
       }
@@ -670,6 +698,9 @@
       }
       .letter-title {
         font-size: 24px;
+      }
+      .memory-grid {
+        grid-template-columns: 1fr;
       }
       .controls {
         flex-direction: column;
@@ -688,9 +719,9 @@
 <body>
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-card">
-      <div class="loading-title">birthday extra page</div>
-      <div class="loading-text">正在打开璇璇的生日附加页…</div>
-      <div class="loading-sub">这一次不是普通链接，是礼物里的隐藏夹层。</div>
+      <div class="loading-title" id="loadingTitle"></div>
+      <div class="loading-text" id="loadingText"></div>
+      <div class="loading-sub" id="loadingSub"></div>
       <div class="progress">
         <div class="progress-bar"></div>
       </div>
@@ -704,9 +735,9 @@
 
     <div class="inner">
       <div class="meta">
-        <div class="badge" id="pageLabel">01 / 祝福</div>
+        <div class="badge" id="pageLabel"></div>
         <div class="meta-right">
-          <div class="site-name">璇璇生日附加页</div>
+          <div class="site-name" id="siteName"></div>
           <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
         </div>
       </div>
@@ -716,15 +747,14 @@
         <section class="page active" id="page0">
           <div class="frame">
             <div class="frame-inner welcome-card">
-              <div class="mini">birthday card</div>
-              <h1>给璇璇的一页生日祝福</h1>
-              <div class="subtext">生日快乐。
-愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。</div>
+              <div class="mini" id="p1Mini"></div>
+              <h1 id="p1Title"></h1>
+              <div class="subtext" id="p1Text"></div>
               <div class="ribbon"></div>
             </div>
 
             <div class="frame-action">
-              <button class="frame-btn" onclick="goToPage(1)">继续往下看</button>
+              <button class="frame-btn" id="p1Btn" onclick="goToPage(1)"></button>
             </div>
           </div>
         </section>
@@ -733,21 +763,29 @@
         <section class="page" id="page1">
           <div class="frame">
             <div class="frame-inner">
-              <div class="mini">hidden layer</div>
-              <h2>这一页算礼物里的隐藏小夹层</h2>
-              <div class="subtext">我们不是那种总有很多话要说的人，可你又一直都在。
-没有很喧闹，却也从来没有真正离开过。</div>
+              <div class="mini" id="p2Mini"></div>
+              <h2 id="p2Title"></h2>
+              <div class="subtext" id="p2Text"></div>
 
-              <div class="layer-note">就像礼物盒里那张小信封一样，
-这一页只是想让整份礼物更完整一点。</div>
+              <div class="memory-grid">
+                <div class="memory-card">
+                  <div class="label" id="p2Card1Label"></div>
+                  <div class="content" id="p2Card1Text"></div>
+                </div>
+                <div class="memory-card">
+                  <div class="label" id="p2Card2Label"></div>
+                  <div class="content" id="p2Card2Text"></div>
+                </div>
+              </div>
 
-              <span class="tiny-trigger" onclick="toggleSecret()">这里还有一句小小的补充</span>
-              <div class="tiny-secret" id="tinySecret">有些心意不一定适合放在最显眼的地方，
-但藏在这里，好像刚刚好。</div>
+              <div class="layer-note" id="p2Note"></div>
+
+              <span class="tiny-trigger" id="p2SecretTrigger" onclick="toggleSecret()"></span>
+              <div class="tiny-secret" id="tinySecret"></div>
             </div>
 
             <div class="frame-action">
-              <button class="frame-btn" onclick="goToPage(2)">继续往下看</button>
+              <button class="frame-btn" id="p2Btn" onclick="goToPage(2)"></button>
             </div>
           </div>
         </section>
@@ -756,14 +794,99 @@
         <section class="page" id="page2">
           <div class="frame">
             <div class="frame-inner">
-              <div class="mini">letter</div>
+              <div class="mini" id="p3Mini"></div>
               <div class="letter-paper">
                 <div class="letter-head">
-                  <div class="letter-title">写给璇璇的话</div>
-                  <div class="letter-mark">letter</div>
+                  <div class="letter-title" id="p3Title"></div>
+                  <div class="letter-mark" id="p3Mark"></div>
                 </div>
 
-                <div class="letter-body">璇璇：
+                <div class="letter-body" id="p3Body"></div>
+              </div>
+            </div>
+
+            <div class="frame-action">
+              <button class="frame-btn" id="p3Btn" onclick="goToPage(3)"></button>
+            </div>
+          </div>
+        </section>
+
+        <!-- page 4 -->
+        <section class="page" id="page3">
+          <div class="frame">
+            <div class="frame-inner egg-page">
+              <div class="mini" id="p4Mini"></div>
+              <h2 id="p4Title"></h2>
+              <p id="p4Text"></p>
+              <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
+            </div>
+
+            <div class="frame-action">
+              <div class="frame-tag" id="p4Tag"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="controls">
+        <div class="btn-group">
+          <button class="ghost-btn" id="prevBtn" onclick="prevPage()"></button>
+        </div>
+        <div class="dots" id="dots"></div>
+      </div>
+
+      <div class="bottom-text" id="bottomText"></div>
+    </div>
+  </div>
+
+  <div class="chibi-overlay" id="chibiOverlay" onclick="closeChibiScene(event)">
+    <div class="chibi-stage" id="chibiStage">
+      <button class="chibi-close" onclick="forceCloseChibiScene()" type="button">×</button>
+      <div class="chibi-caption" id="chibiCaption"></div>
+      <img src="chibi-cake.png.png" alt="生日彩蛋插画" class="chibi-scene-img" id="chibiSceneImg" />
+    </div>
+  </div>
+
+  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+  <audio id="voice" src="voice.m4a" preload="auto"></audio>
+
+  <script>
+    const CONTENT = {
+      siteName: "璇璇生日附加页",
+      labels: ["01 / 祝福", "02 / 夹层", "03 / 信", "04 / 彩蛋"],
+
+      loading: {
+        title: "birthday extra page",
+        text: "正在打开璇璇的生日附加页…",
+        sub: "这一次不是普通链接，是礼物里的隐藏夹层。"
+      },
+
+      page1: {
+        mini: "birthday card",
+        title: "给璇璇的一页生日祝福",
+        text: "生日快乐。\n愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。",
+        btn: "继续往下看"
+      },
+
+      page2: {
+        mini: "hidden layer",
+        title: "这一页算礼物里的隐藏小夹层",
+        text: "我们不是那种总有很多话要说的人，可你又一直都在。\n没有很喧闹，却也从来没有真正离开过。",
+        card1Label: "小纸条 01",
+        card1Text: "不是想把礼物做得多夸张，\n只是想让它看起来更像一份认真准备过的心意。",
+        card2Label: "小纸条 02",
+        card2Text: "盒子、花、小细节，还有这一页，\n其实都是一点一点慢慢想出来的。",
+        note: "就像礼物盒里那张小信封一样，\n这一页只是想让整份礼物更完整一点。",
+        secretTrigger: "这里还有一句小小的补充",
+        secretText: "有些心意不一定适合放在最显眼的地方，\n但藏在这里，好像刚刚好。",
+        btn: "继续往下看"
+      },
+
+      page3: {
+        mini: "letter",
+        title: "写给璇璇的话",
+        mark: "letter",
+        body: `璇璇：
 
 其实一开始，我没想把这份礼物准备得这么复杂。
 本来只是觉得，既然是你的生日，想认真送你一点东西。
@@ -828,65 +951,30 @@
 遇到真心对待你的人，
 然后一直一直，过得比想象中更幸福一点。
 
-—— 徐源</div>
-              </div>
-            </div>
+—— 徐源`,
+        btn: "还有最后一页"
+      },
 
-            <div class="frame-action">
-              <button class="frame-btn" onclick="goToPage(3)">还有最后一页</button>
-            </div>
-          </div>
-        </section>
+      page4: {
+        mini: "final page",
+        title: "还有最后一个小彩蛋",
+        text: "如果你已经看到这里了，那这份礼物里藏着的小心思，\n应该也算被你好好收到啦。",
+        eggBtn: "for 最好的璇璇",
+        tag: "最后一页"
+      },
 
-        <!-- page 4 -->
-        <section class="page" id="page3">
-          <div class="frame">
-            <div class="frame-inner egg-page">
-              <div class="mini">final page</div>
-              <h2>还有最后一个小彩蛋</h2>
-              <p>
-                如果你已经看到这里了，那这份礼物里藏着的小心思，
-                应该也算被你好好收到啦。
-              </p>
-              <button class="egg-btn" onclick="openChibiScene()">for 最好的璇璇</button>
-            </div>
+      common: {
+        prevBtn: "上一层",
+        bottomText: "这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。",
+        chibiCaption: "生日快乐，璇璇。"
+      }
+    };
 
-            <div class="frame-action">
-              <div class="frame-tag">最后一页</div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="controls">
-        <div class="btn-group">
-          <button class="ghost-btn" onclick="prevPage()">上一层</button>
-        </div>
-        <div class="dots" id="dots"></div>
-      </div>
-
-      <div class="bottom-text">
-        这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。
-      </div>
-    </div>
-  </div>
-
-  <div class="chibi-overlay" id="chibiOverlay" onclick="closeChibiScene(event)">
-    <div class="chibi-stage" id="chibiStage">
-      <button class="chibi-close" onclick="forceCloseChibiScene()" type="button">×</button>
-      <div class="chibi-caption">生日快乐，璇璇。</div>
-      <img src="chibi-cake.png" alt="生日彩蛋插画" class="chibi-scene-img" id="chibiSceneImg" />
-    </div>
-  </div>
-
-  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
-  <audio id="voice" src="voice.m4a" preload="auto"></audio>
-
-  <script>
-    const labels = ["01 / 祝福", "02 / 夹层", "03 / 信", "04 / 彩蛋"];
+    const labels = CONTENT.labels;
     let currentStep = 0;
-    let voicePlayed = false;
     let musicEnabled = true;
+    let bgmStarted = false;
+    let voicePlayed = false;
 
     const pages = [
       document.getElementById("page0"),
@@ -898,63 +986,110 @@
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
-
     const chibiOverlay = document.getElementById("chibiOverlay");
     const chibiStage = document.getElementById("chibiStage");
     const chibiSceneImg = document.getElementById("chibiSceneImg");
 
-    bgm.volume = 0.28;
+    bgm.volume = 0.26;
     voice.volume = 1.0;
 
-    async function tryPlayBgm() {
-      if (!musicEnabled) return;
+    function applyContent() {
+      document.getElementById("siteName").textContent = CONTENT.siteName;
+
+      document.getElementById("loadingTitle").textContent = CONTENT.loading.title;
+      document.getElementById("loadingText").textContent = CONTENT.loading.text;
+      document.getElementById("loadingSub").textContent = CONTENT.loading.sub;
+
+      document.getElementById("p1Mini").textContent = CONTENT.page1.mini;
+      document.getElementById("p1Title").textContent = CONTENT.page1.title;
+      document.getElementById("p1Text").textContent = CONTENT.page1.text;
+      document.getElementById("p1Btn").textContent = CONTENT.page1.btn;
+
+      document.getElementById("p2Mini").textContent = CONTENT.page2.mini;
+      document.getElementById("p2Title").textContent = CONTENT.page2.title;
+      document.getElementById("p2Text").textContent = CONTENT.page2.text;
+      document.getElementById("p2Card1Label").textContent = CONTENT.page2.card1Label;
+      document.getElementById("p2Card1Text").textContent = CONTENT.page2.card1Text;
+      document.getElementById("p2Card2Label").textContent = CONTENT.page2.card2Label;
+      document.getElementById("p2Card2Text").textContent = CONTENT.page2.card2Text;
+      document.getElementById("p2Note").textContent = CONTENT.page2.note;
+      document.getElementById("p2SecretTrigger").textContent = CONTENT.page2.secretTrigger;
+      document.getElementById("tinySecret").textContent = CONTENT.page2.secretText;
+      document.getElementById("p2Btn").textContent = CONTENT.page2.btn;
+
+      document.getElementById("p3Mini").textContent = CONTENT.page3.mini;
+      document.getElementById("p3Title").textContent = CONTENT.page3.title;
+      document.getElementById("p3Mark").textContent = CONTENT.page3.mark;
+      document.getElementById("p3Body").textContent = CONTENT.page3.body;
+      document.getElementById("p3Btn").textContent = CONTENT.page3.btn;
+
+      document.getElementById("p4Mini").textContent = CONTENT.page4.mini;
+      document.getElementById("p4Title").textContent = CONTENT.page4.title;
+      document.getElementById("p4Text").textContent = CONTENT.page4.text;
+      document.getElementById("p4EggBtn").textContent = CONTENT.page4.eggBtn;
+      document.getElementById("p4Tag").textContent = CONTENT.page4.tag;
+
+      document.getElementById("prevBtn").textContent = CONTENT.common.prevBtn;
+      document.getElementById("bottomText").textContent = CONTENT.common.bottomText;
+      document.getElementById("chibiCaption").textContent = CONTENT.common.chibiCaption;
+    }
+
+    async function tryPlayBgm(source = "manual") {
+      if (!musicEnabled) return false;
       try {
         await bgm.play();
-        musicToggle.textContent = "♪ 音乐开";
+        bgmStarted = true;
+        updateMusicButton();
+        return true;
       } catch (e) {
-        musicToggle.textContent = "♪ 点我开音乐";
+        updateMusicButton();
+        return false;
       }
     }
 
     function updateMusicButton() {
-      if (bgm.paused || !musicEnabled) {
+      if (!musicEnabled) {
         musicToggle.textContent = "♪ 音乐关";
+        return;
+      }
+      if (bgm.paused) {
+        musicToggle.textContent = "♪ 点我开音乐";
       } else {
         musicToggle.textContent = "♪ 音乐开";
+      }
+    }
+
+    async function ensureBgmStarted() {
+      if (!musicEnabled) return;
+      if (!bgmStarted || bgm.paused) {
+        await tryPlayBgm("interaction");
       }
     }
 
     musicToggle.addEventListener("click", async () => {
       if (bgm.paused) {
         musicEnabled = true;
-        try {
-          await bgm.play();
-        } catch (e) {}
+        await tryPlayBgm("toggle");
       } else {
         bgm.pause();
         musicEnabled = false;
+        updateMusicButton();
       }
-      updateMusicButton();
     });
 
-    async function playVoiceOnPage3() {
-      if (voicePlayed) return;
-      voicePlayed = true;
-
-      try {
-        if (!bgm.paused) {
-          bgm.volume = 0.08;
-        }
-        voice.currentTime = 0;
-        await voice.play();
-      } catch (e) {}
+    async function goToPage(index) {
+      await ensureBgmStarted();
+      currentStep = index;
+      renderPage();
     }
 
-    voice.addEventListener("ended", () => {
-      if (!bgm.paused && musicEnabled) {
-        bgm.volume = 0.28;
+    async function prevPage() {
+      await ensureBgmStarted();
+      if (currentStep > 0) {
+        currentStep--;
+        renderPage();
       }
-    });
+    }
 
     function renderPage() {
       pages.forEach((page, index) => {
@@ -963,10 +1098,6 @@
 
       document.getElementById("pageLabel").textContent = labels[currentStep];
       renderDots();
-
-      if (currentStep === 2) {
-        playVoiceOnPage3();
-      }
     }
 
     function renderDots() {
@@ -976,23 +1107,12 @@
       for (let i = 0; i < pages.length; i++) {
         const dot = document.createElement("div");
         dot.className = i === currentStep ? "dot active" : "dot";
-        dot.onclick = () => {
+        dot.onclick = async () => {
+          await ensureBgmStarted();
           currentStep = i;
           renderPage();
         };
         dotsWrap.appendChild(dot);
-      }
-    }
-
-    function goToPage(index) {
-      currentStep = index;
-      renderPage();
-    }
-
-    function prevPage() {
-      if (currentStep > 0) {
-        currentStep--;
-        renderPage();
       }
     }
 
@@ -1001,7 +1121,9 @@
       box.style.display = box.style.display === "block" ? "none" : "block";
     }
 
-    function openChibiScene() {
+    async function openChibiScene() {
+      await ensureBgmStarted();
+
       chibiOverlay.classList.add("show");
       document.body.style.overflow = "hidden";
       chibiStage.classList.remove("show");
@@ -1011,7 +1133,22 @@
         chibiStage.classList.add("show");
         chibiSceneImg.classList.add("show");
       });
+
+      if (!voicePlayed) {
+        voicePlayed = true;
+        try {
+          if (!bgm.paused) bgm.volume = 0.08;
+          voice.currentTime = 0;
+          await voice.play();
+        } catch (e) {}
+      }
     }
+
+    voice.addEventListener("ended", () => {
+      if (!bgm.paused && musicEnabled) {
+        bgm.volume = 0.26;
+      }
+    });
 
     function closeChibiScene(event) {
       if (event.target === chibiOverlay) {
@@ -1027,13 +1164,15 @@
     }
 
     window.addEventListener("load", () => {
+      applyContent();
+
       const loading = document.getElementById("loadingScreen");
       const shell = document.getElementById("shell");
 
       setTimeout(async () => {
         loading.classList.add("hidden");
         shell.classList.add("ready");
-        await tryPlayBgm();
+        await tryPlayBgm("load");
         updateMusicButton();
       }, 1050);
     });
@@ -1049,6 +1188,7 @@
     });
 
     renderPage();
+    updateMusicButton();
   </script>
 </body>
 </html>
