@@ -5,40 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>璇璇生日附加页</title>
   <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; }
 
     :root {
       --bg1: #f8f4ff;
       --bg2: #fcfbff;
       --bg3: #f3ecff;
+      --violet: #a88ddb;
+      --violet-deep: #6d5a8b;
+      --violet-soft: #ece2ff;
       --text: #4b4358;
+      --text-soft: #746b82;
       --paper: #fffdf9;
+      --line: #eadff7;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
-      --card-border: rgba(232,222,248,.95);
-      --deep: #43384f;
-      --soft: #6a6177;
-      --line: rgba(224,210,247,.72);
-      --accent: #a888ea;
-      --accent-soft: #e9dcff;
-      --btn-dark: #4d3f63;
     }
 
-    html, body {
+    body {
       margin: 0;
-      min-height: 100%;
+      min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
         "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 46%, var(--bg3) 100%);
       color: var(--text);
-      overflow-x: hidden;
-    }
-
-    body {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 18px;
-      position: relative;
+      overflow-x: hidden;
     }
 
     .loading-screen {
@@ -62,8 +56,8 @@
       width: min(88vw, 460px);
       border-radius: 28px;
       padding: 28px 24px;
-      background: rgba(255,255,255,.84);
-      border: 1px solid rgba(223, 211, 247, .95);
+      background: rgba(255,255,255,.85);
+      border: 1px solid rgba(223, 211, 247, .9);
       box-shadow: 0 20px 60px rgba(118, 92, 167, 0.10);
       text-align: center;
       backdrop-filter: blur(8px);
@@ -226,7 +220,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 0 0;
+      padding-top: 8px;
     }
 
     .page {
@@ -242,12 +236,51 @@
     @keyframes fadeUp {
       from {
         opacity: 0;
-        transform: translateY(18px) scale(0.985);
+        transform: translateY(18px) scale(.985);
       }
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 760px;
+      min-height: 500px;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 30px;
+      padding: 30px 28px 88px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
+      border: 1px solid rgba(232,222,248,.95);
+      box-shadow: 0 16px 40px rgba(104,82,145,.08);
+      overflow: hidden;
+    }
+
+    .frame::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(224,210,247,.7);
+      pointer-events: none;
+    }
+
+    .frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 35%),
+        linear-gradient(120deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%);
+      opacity: .65;
+      pointer-events: none;
+    }
+
+    .frame-inner {
+      position: relative;
+      z-index: 1;
     }
 
     .mini {
@@ -258,182 +291,126 @@
       margin-bottom: 18px;
     }
 
-    .page-frame {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 26px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(250,246,255,.96));
-      border: 1px solid #eadffd;
-      box-shadow: 0 16px 40px rgba(104,82,145,.08);
-      position: relative;
-    }
-
-    .page-frame::before {
-      content: "";
-      position: absolute;
-      inset: 14px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      pointer-events: none;
-    }
-
-    .main-card,
-    .fold-note,
-    .ending-card {
-      width: 100%;
-      position: relative;
-      border-radius: 24px;
-      padding: 40px 28px;
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(232,222,248,.7);
-      box-shadow: none;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .main-card::before,
-    .fold-note::before,
-    .ending-card::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border-radius: 18px;
-      border: 1px solid rgba(224,210,247,.48);
-      pointer-events: none;
-    }
-
-    .title-lg,
-    .letter-title,
-    .ending-title {
+    h1, h2 {
       margin: 0;
-      font-size: 40px;
-      line-height: 1.22;
+      font-size: 36px;
+      line-height: 1.25;
+      color: #43384f;
+      font-weight: 600;
       letter-spacing: -0.02em;
-      color: var(--deep);
-      font-weight: 600;
       white-space: pre-line;
     }
 
-    .subtext,
-    .ending-sub {
-      max-width: 560px;
-      margin: 22px auto 0;
-      font-size: 17px;
-      line-height: 2;
-      color: var(--soft);
-      white-space: pre-line;
-    }
-
-    .ribbon {
-      width: 96px;
-      height: 10px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #d8c7ff, #efdae8);
-      margin: 28px auto 0;
-      opacity: .85;
-      box-shadow: 0 6px 16px rgba(168,141,219,.2);
-    }
-
-    /* page 2 */
-    .fold-note {
-      padding: 34px 24px 28px;
-    }
-
-    .fold-paper {
-      width: min(100%, 520px);
-      margin: 28px auto 0;
-      background: linear-gradient(180deg, #fffefc, #fffaf4);
-      border: 1px solid #efe3d7;
-      border-radius: 22px;
-      padding: 24px 22px;
-      position: relative;
-      box-shadow: 0 14px 28px rgba(120,100,150,.08);
-      transform: rotate(-1.2deg);
-    }
-
-    .fold-paper::before {
-      content: "";
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%) rotate(1deg);
-      width: 120px;
-      height: 36px;
-      border-radius: 10px;
-      background: rgba(230, 211, 255, .55);
-      backdrop-filter: blur(2px);
-    }
-
-    .fold-paper::after {
-      content: "";
-      position: absolute;
-      left: 18px;
-      right: 18px;
-      top: 62px;
-      bottom: 18px;
-      background-image: linear-gradient(to bottom, rgba(210,198,225,.16) 1px, transparent 1px);
-      background-size: 100% 30px;
-      pointer-events: none;
-    }
-
-    .fold-inner {
-      position: relative;
-      z-index: 1;
-      text-align: left;
-    }
-
-    .fold-head {
-      font-size: 18px;
-      color: #4a4056;
-      font-weight: 600;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .fold-text {
+    .subtext {
+      margin-top: 18px;
       font-size: 16px;
-      line-height: 2.05;
-      color: #655c73;
+      line-height: 2;
+      color: #6a6177;
       white-space: pre-line;
     }
 
-    /* page 3 */
+    /* first page */
+    .question-box {
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 20px;
+      background: #faf6ff;
+      border: 1px solid #eadffd;
+    }
+
+    .question {
+      font-size: 17px;
+      line-height: 1.9;
+      color: #574d65;
+    }
+
+    .options {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-btn {
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid #e5d8ff;
+      background: white;
+      color: #6a5f79;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .option-btn:hover {
+      background: #f7f1ff;
+      transform: translateY(-1px);
+    }
+
+    .answer-tip {
+      margin-top: 18px;
+      min-height: 52px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #856fa9;
+    }
+
+    /* second page */
+    .layer-note {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #faf6ff;
+      border: 1px dashed #dfcffd;
+      color: #7a6f88;
+      font-size: 14px;
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+
+    .tiny-trigger {
+      margin-top: 18px;
+      display: inline-block;
+      color: #866ab8;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tiny-secret {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid #eadffd;
+      font-size: 14px;
+      color: #655c73;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    /* third page */
     .letter-paper {
       background: var(--paper);
-      border-radius: 24px;
-      padding: 24px 20px;
+      border-radius: 22px;
+      padding: 24px 22px 86px;
       border: 1px solid #efe7da;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.6);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.6),
+        0 12px 28px rgba(120,100,150,.06);
       position: relative;
-      animation: unfold .75s ease;
-    }
-
-    .letter-fixed {
-      height: 540px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes unfold {
-      from {
-        transform: rotateX(-15deg) scale(0.985);
-        opacity: .35;
-      }
-      to {
-        transform: rotateX(0) scale(1);
-        opacity: 1;
-      }
+      min-height: 410px;
     }
 
     .letter-paper::before {
       content: "";
       position: absolute;
-      left: 20px;
-      right: 20px;
-      top: 68px;
-      bottom: 20px;
+      left: 22px;
+      right: 22px;
+      top: 78px;
+      bottom: 22px;
       background-image: linear-gradient(to bottom, rgba(210,198,225,.18) 1px, transparent 1px);
       background-size: 100% 38px;
       pointer-events: none;
@@ -441,18 +418,19 @@
 
     .letter-head {
       position: relative;
-      z-index: 2;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 12px;
-      flex-shrink: 0;
+      margin-bottom: 14px;
     }
 
     .letter-title {
-      font-size: 29px;
+      font-size: 28px;
+      color: #43384f;
+      font-weight: 600;
     }
 
     .letter-mark {
@@ -464,212 +442,45 @@
 
     .letter-body {
       position: relative;
-      z-index: 2;
+      z-index: 1;
       font-size: 16px;
-      line-height: 2.35;
+      line-height: 2.25;
       color: #5e566b;
       white-space: pre-line;
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 6px;
-      margin-top: 4px;
-      scrollbar-width: thin;
-      scrollbar-color: #ccb6ef transparent;
     }
 
-    .letter-body::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .letter-body::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .letter-body::-webkit-scrollbar-thumb {
-      background: #ccb6ef;
-      border-radius: 999px;
-    }
-
-    /* page 4 */
-    .ending-card {
-      min-height: 430px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .ending-title {
-      font-size: 42px;
-    }
-
-    .ending-stamp {
-      margin-top: 24px;
-      width: 126px;
-      height: 126px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 12px;
-      background: linear-gradient(180deg, #f1e3ff, #ddc7ff);
-      color: #7a5da8;
-      font-size: 16px;
-      line-height: 1.45;
-      box-shadow: 0 14px 28px rgba(145, 113, 196, .18);
-      border: 1px solid rgba(255,255,255,.72);
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease;
-      user-select: none;
-      position: relative;
-      z-index: 4;
-    }
-
-    .ending-stamp:hover {
-      transform: translateY(-2px) scale(1.02);
-    }
-
-    .ending-stamp.pop {
-      animation: stampPop .45s ease;
-    }
-
-    @keyframes stampPop {
-      0% { transform: scale(1); }
-      40% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    .ending-line {
-      margin-top: 24px;
-      font-size: 18px;
-      color: #8b7f9f;
-      line-height: 2;
-      white-space: pre-line;
-      position: relative;
-      z-index: 3;
-    }
-
-    .character-stage {
-      width: 100%;
-      max-width: 620px;
-      height: 220px;
-      margin-top: 24px;
-      position: relative;
+    /* action positions */
+    .frame-action {
+      position: absolute;
+      right: 28px;
+      bottom: 28px;
       z-index: 2;
     }
 
-    .character {
-      position: absolute;
-      bottom: 0;
-      user-select: none;
-      pointer-events: none;
-      filter: drop-shadow(0 10px 18px rgba(123, 99, 168, .14));
-      animation: floaty 3.6s ease-in-out infinite;
-      object-fit: contain;
-    }
-
-    .character.xuan {
-      width: 150px;
-      left: 6%;
-      animation-delay: .1s;
-    }
-
-    .character.cat {
-      width: 108px;
-      left: 40%;
-      bottom: 2px;
-      animation-delay: .8s;
-    }
-
-    .character.me {
-      width: 150px;
-      right: 6%;
-      animation-delay: .45s;
-    }
-
-    @keyframes floaty {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-9px); }
-    }
-
-    .sparkles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .spark {
-      position: absolute;
-      font-size: 18px;
-      opacity: .75;
-      animation: floatSpark 5s linear infinite;
-    }
-
-    .spark:nth-child(1) { left: 18%; top: 20%; animation-delay: 0s; }
-    .spark:nth-child(2) { left: 80%; top: 24%; animation-delay: 1.1s; }
-    .spark:nth-child(3) { left: 12%; top: 70%; animation-delay: 2s; }
-    .spark:nth-child(4) { left: 86%; top: 66%; animation-delay: 2.8s; }
-
-    @keyframes floatSpark {
-      0%,100% { transform: translateY(0) scale(1); opacity: .35; }
-      50% { transform: translateY(-12px) scale(1.12); opacity: .9; }
-    }
-
-    .bubble {
-      position: absolute;
-      left: 50%;
-      top: 52%;
-      transform: translate(-50%, -50%) translateY(10px);
-      background: rgba(255,255,255,.92);
-      border: 1px solid rgba(225, 213, 247, .95);
-      color: #7a66a1;
-      border-radius: 999px;
-      padding: 10px 16px;
+    .frame-btn {
+      padding: 12px 18px;
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      background: #3f354c;
+      color: #fff;
       font-size: 14px;
-      line-height: 1.4;
-      box-shadow: 0 12px 28px rgba(136, 109, 186, .12);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-      z-index: 5;
-      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(63,53,76,.18);
+      transition: transform .15s ease, opacity .15s ease;
     }
 
-    .bubble.show {
-      opacity: 1;
-      transform: translate(-50%, -50%) translateY(0);
+    .frame-btn:hover {
+      transform: translateY(-1px);
+      opacity: .96;
     }
 
-    .heart-burst {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0;
-      animation: burst 900ms ease forwards;
-    }
-
-    .heart-burst::before {
-      content: "❤";
-      font-size: 12px;
-      color: #c592ff;
-    }
-
-    @keyframes burst {
-      0% {
-        opacity: 0;
-        transform: translate(0, 0) scale(.6);
-      }
-      15% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(1.4);
-      }
+    .frame-tag {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #f4eeff;
+      border: 1px solid #e6dbff;
+      color: #7a64a7;
+      font-size: 13px;
     }
 
     .controls {
@@ -687,13 +498,6 @@
       flex-wrap: wrap;
     }
 
-    button {
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform .15s ease, opacity .15s ease, background .15s ease;
-    }
-
     .ghost-btn {
       padding: 11px 15px;
       border-radius: 16px;
@@ -701,24 +505,11 @@
       border: 1px solid #e7dbff;
       color: #715c98;
       font-size: 14px;
+      cursor: pointer;
     }
 
     .ghost-btn:hover {
       background: #eee6ff;
-    }
-
-    .primary-btn {
-      padding: 13px 18px;
-      border-radius: 18px;
-      background: var(--btn-dark);
-      color: #fff;
-      font-size: 14px;
-      box-shadow: 0 8px 18px rgba(63,53,76,.18);
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      opacity: .96;
     }
 
     .dots {
@@ -742,63 +533,43 @@
       background: #a888ea;
     }
 
+    .bottom-text {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #9b90ab;
+    }
+
     @media (max-width: 760px) {
       .shell { min-height: auto; }
       .inner { min-height: auto; padding: 18px 14px 16px; }
-      .page-frame { padding: 16px; }
-      .main-card, .fold-note, .ending-card { padding: 28px 18px; }
-      .title-lg, .ending-title, .letter-title { font-size: 29px; }
-      .subtext, .ending-sub, .letter-body, .fold-text { font-size: 15px; }
-
-      .letter-fixed { height: 500px; }
-      .letter-paper { padding: 20px 14px; }
-      .letter-paper::before {
-        left: 14px;
-        right: 14px;
-        top: 64px;
-        bottom: 14px;
+      .frame {
+        min-height: 520px;
+        padding: 24px 18px 84px;
       }
-      .letter-title { font-size: 24px; }
-
+      h1, h2 { font-size: 28px; }
+      .subtext, .letter-body, .question { font-size: 15px; }
+      .letter-paper {
+        padding: 20px 16px 78px;
+      }
+      .letter-paper::before {
+        left: 16px;
+        right: 16px;
+      }
+      .letter-title {
+        font-size: 24px;
+      }
       .controls {
         flex-direction: column;
         align-items: stretch;
       }
-      .btn-group { justify-content: center; }
-      .site-name { display: none; }
-
-      .ending-stamp {
-        width: 108px;
-        height: 108px;
-        font-size: 15px;
+      .btn-group {
+        justify-content: center;
       }
-
-      .character-stage {
-        height: 180px;
-        margin-top: 18px;
-      }
-
-      .character.xuan {
-        width: 112px;
-        left: 2%;
-      }
-
-      .character.cat {
-        width: 84px;
-        left: 39%;
-      }
-
-      .character.me {
-        width: 112px;
-        right: 2%;
-      }
-
-      .bubble {
-        font-size: 13px;
-        max-width: 86%;
-        white-space: normal;
-        text-align: center;
-        padding: 10px 14px;
+      .frame-action {
+        right: 18px;
+        bottom: 18px;
       }
     }
   </style>
@@ -808,7 +579,7 @@
     <div class="loading-card">
       <div class="loading-title">birthday extra page</div>
       <div class="loading-text">正在打开璇璇的生日附加页…</div>
-      <div class="loading-sub">这一次不是普通链接，是礼物里藏着的一页。</div>
+      <div class="loading-sub">这一次不是普通链接，是礼物里的隐藏夹层。</div>
       <div class="progress">
         <div class="progress-bar"></div>
       </div>
@@ -822,123 +593,72 @@
 
     <div class="inner">
       <div class="meta">
-        <div class="badge" id="pageLabel">01 / 开场</div>
+        <div class="badge" id="pageLabel">01 / 问答</div>
         <div class="meta-right">
           <div class="site-name">璇璇生日附加页</div>
-          <button class="music-btn" id="musicToggle" type="button">♪ 打开音乐</button>
+          <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
         </div>
       </div>
 
       <div class="stage">
-        <!-- 第1页 -->
+        <!-- page 1 -->
         <section class="page active" id="page0">
-          <div class="page-frame">
-            <div class="main-card" id="giftCard">
-              <div class="mini">opening</div>
-              <h1 class="title-lg" id="page1Title"></h1>
-              <div class="subtext" id="page1Desc"></div>
-              <div class="ribbon"></div>
-            </div>
-          </div>
-        </section>
+          <div class="frame">
+            <div class="frame-inner">
+              <div class="mini">question</div>
+              <h1>先回答一个小问题</h1>
+              <div class="subtext">为了打开这一页，你觉得最应该带上的是什么？</div>
 
-        <!-- 第2页 -->
-        <section class="page" id="page1">
-          <div class="page-frame">
-            <div class="fold-note">
-              <div class="mini">a small note</div>
-              <h2 class="title-lg" style="font-size:36px;" id="page2Title"></h2>
-              <div class="subtext" id="page2Desc"></div>
-
-              <div class="fold-paper">
-                <div class="fold-inner">
-                  <div class="fold-head" id="page2NoteTitle"></div>
-                  <div class="fold-text" id="page2NoteBody"></div>
+              <div class="question-box">
+                <div class="question">
+                  如果要认真拆开一份为你准备的礼物，最适合带上的会是哪一样？
                 </div>
+                <div class="options">
+                  <button class="option-btn" onclick="answerQuestion('一点好奇心')">A. 一点好奇心</button>
+                  <button class="option-btn" onclick="answerQuestion('一点耐心')">B. 一点耐心</button>
+                  <button class="option-btn" onclick="answerQuestion('一点温柔')">C. 一点温柔</button>
+                </div>
+                <div class="answer-tip" id="answerTip"></div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 第3页 -->
+        <!-- page 2 -->
+        <section class="page" id="page1">
+          <div class="frame">
+            <div class="frame-inner">
+              <div class="mini">hidden layer</div>
+              <h2>这一页算礼物里的隐藏小夹层</h2>
+              <div class="subtext">我们不是那种总有很多话要说的人，可你又一直都在。
+没有很喧闹，却也从来没有真正离开过。</div>
+
+              <div class="layer-note">就像礼物盒里那张小信封一样，
+这一页只是想让整份礼物更完整一点。</div>
+
+              <span class="tiny-trigger" onclick="toggleSecret()">这里还有一句小小的补充</span>
+              <div class="tiny-secret" id="tinySecret">有些心意不一定适合放在最显眼的地方，
+但藏在这里，好像刚刚好。</div>
+            </div>
+
+            <div class="frame-action">
+              <button class="frame-btn" onclick="goToPage(2)">继续拆开</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- page 3 -->
         <section class="page" id="page2">
-          <div class="page-frame">
-            <div class="letter-paper letter-fixed">
-              <div class="letter-head">
-                <div class="letter-title" id="page3Title"></div>
-                <div class="letter-mark">letter</div>
-              </div>
-              <div class="letter-body" id="page3Body"></div>
-            </div>
-          </div>
-        </section>
+          <div class="frame">
+            <div class="frame-inner">
+              <div class="mini">letter</div>
+              <div class="letter-paper">
+                <div class="letter-head">
+                  <div class="letter-title">写给璇璇的话</div>
+                  <div class="letter-mark">letter</div>
+                </div>
 
-        <!-- 第4页 -->
-        <section class="page" id="page3">
-          <div class="page-frame">
-            <div class="ending-card" id="endingCard">
-              <div class="sparkles">
-                <div class="spark">✦</div>
-                <div class="spark">✧</div>
-                <div class="spark">✦</div>
-                <div class="spark">✧</div>
-              </div>
-
-              <div class="mini">final page</div>
-              <div class="ending-title" id="page4Title"></div>
-              <div class="ending-sub" id="page4Desc"></div>
-
-              <div class="character-stage" id="characterStage">
-                <!-- ========= 图片素材区：把文件名换成你的图 ========= -->
-                <img src="xuan.png" class="character xuan" id="xuanImg" alt="璇璇形象">
-                <img src="cat.png" class="character cat" id="catImg" alt="猫咪形象">
-                <img src="me.png" class="character me" id="meImg" alt="我的形象">
-                <!-- ========= 图片素材区结束 ========= -->
-              </div>
-
-              <div class="ending-stamp" id="page4Stamp"></div>
-              <div class="bubble" id="endingBubble"></div>
-              <div class="ending-line" id="page4Sign"></div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="controls">
-        <div class="btn-group">
-          <button class="ghost-btn" onclick="prevPage()">上一层</button>
-          <button class="primary-btn" id="nextBtn" onclick="nextPage()">继续往下看</button>
-        </div>
-
-        <div class="dots" id="dots"></div>
-      </div>
-    </div>
-  </div>
-
-  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
-  <audio id="voice" src="voice.m4a" preload="auto"></audio>
-
-  <script>
-    /* ========= 可替换文案区：以后主要改这里 ========= */
-    const TEXTS = {
-      page1Title: "璇璇，生日快乐",
-      page1Desc: `愿你新的一岁平安、明亮、顺遂。
-也希望你一直被温柔对待。`,
-
-      page2Title: "藏在里面的一张小纸条",
-      page2Desc: `有些话不适合放在最前面，
-所以我把它留在这一层。`,
-      page2NoteTitle: "写给你的补充",
-      page2NoteBody: `其实这一页想说的很简单。
-
-你对我来说，
-一直都不是一个可以被随便对待的人。
-
-所以这份礼物里，
-我才会忍不住想再多放一点认真。`,
-
-      page3Title: "写给璇璇的话",
-      page3Body: `璇璇：
+                <div class="letter-body">璇璇：
 
 其实一开始，我没想把这份礼物准备得这么复杂。
 本来只是觉得，既然是你的生日，想认真送你一点东西。
@@ -996,94 +716,80 @@
 还有这些藏在里面的小心思，
 最后能让你有一点点感动，
 或者只是让你在某个瞬间觉得心里暖了一下，
-那我就会觉得，这一切都很值得。`,
+那我就会觉得，这一切都很值得。
 
-      page4Title: "生日快乐，璇璇",
-      page4Desc: `希望你新的一岁平安、明亮、顺遂。
-希望你被认真对待，也被温柔包围。`,
-      page4Stamp: "For<br>最好的璇子",
-      page4Sign: "—— 徐源",
-      page4Bubble: "今天也要开开心心 ✦"
-    };
-    /* ========= 可替换文案区结束 ========= */
+生日快乐，璇璇。
+也希望你以后一直都能遇到温柔的事，
+遇到真心对待你的人，
+然后一直一直，过得比想象中更幸福一点。
 
-    const labels = ["01 / 开场", "02 / 纸条", "03 / 话", "04 / 收尾"];
-    const buttons = ["继续往下看", "继续往下看", "收下最后一句", "再看一遍"];
+—— 徐源</div>
 
+                <div class="frame-action" style="right: 18px; bottom: 18px;">
+                  <div class="frame-tag">信件</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="controls">
+        <div class="btn-group">
+          <button class="ghost-btn" onclick="prevPage()">上一层</button>
+        </div>
+        <div class="dots" id="dots"></div>
+      </div>
+
+      <div class="bottom-text">
+        这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+  <audio id="voice" src="voice.m4a" preload="auto"></audio>
+
+  <script>
+    const labels = ["01 / 问答", "02 / 夹层", "03 / 信"];
     let currentStep = 0;
     let voicePlayed = false;
     let musicEnabled = true;
+    let answered = false;
 
     const pages = [
       document.getElementById("page0"),
       document.getElementById("page1"),
-      document.getElementById("page2"),
-      document.getElementById("page3")
+      document.getElementById("page2")
     ];
 
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
-    const pageLabel = document.getElementById("pageLabel");
-    const nextBtn = document.getElementById("nextBtn");
-    const bubble = document.getElementById("endingBubble");
-    const stamp = document.getElementById("page4Stamp");
-    const endingCard = document.getElementById("endingCard");
-    const xuanImg = document.getElementById("xuanImg");
-    const catImg = document.getElementById("catImg");
-    const meImg = document.getElementById("meImg");
 
     bgm.volume = 0.28;
     voice.volume = 1.0;
 
-    /* ========= 文案注入：一般不用改下面 ========= */
-    document.getElementById("page1Title").textContent = TEXTS.page1Title;
-    document.getElementById("page1Desc").textContent = TEXTS.page1Desc;
-
-    document.getElementById("page2Title").textContent = TEXTS.page2Title;
-    document.getElementById("page2Desc").textContent = TEXTS.page2Desc;
-    document.getElementById("page2NoteTitle").textContent = TEXTS.page2NoteTitle;
-    document.getElementById("page2NoteBody").textContent = TEXTS.page2NoteBody;
-
-    document.getElementById("page3Title").textContent = TEXTS.page3Title;
-    document.getElementById("page3Body").textContent = TEXTS.page3Body;
-
-    document.getElementById("page4Title").textContent = TEXTS.page4Title;
-    document.getElementById("page4Desc").textContent = TEXTS.page4Desc;
-    document.getElementById("page4Stamp").innerHTML = TEXTS.page4Stamp;
-    document.getElementById("page4Sign").textContent = TEXTS.page4Sign;
-    bubble.textContent = TEXTS.page4Bubble;
-    /* ========= 文案注入结束 ========= */
-
-    function updateMusicButton() {
-      musicToggle.textContent = (!bgm.paused && musicEnabled) ? "♪ 关闭音乐" : "♪ 打开音乐";
-    }
-
     async function tryPlayBgm() {
-      if (!musicEnabled) {
-        updateMusicButton();
-        return;
-      }
+      if (!musicEnabled) return;
       try {
         await bgm.play();
-      } catch (e) {}
-      updateMusicButton();
-    }
-
-    function restoreBgmVolume() {
-      if (!bgm.paused && musicEnabled) {
-        bgm.volume = 0.28;
+        musicToggle.textContent = "♪ 音乐开";
+      } catch (e) {
+        musicToggle.textContent = "♪ 点我开音乐";
       }
     }
 
-    function stopVoiceAndRestore() {
-      voice.pause();
-      voice.currentTime = 0;
-      restoreBgmVolume();
+    function updateMusicButton() {
+      if (bgm.paused || !musicEnabled) {
+        musicToggle.textContent = "♪ 音乐关";
+      } else {
+        musicToggle.textContent = "♪ 音乐开";
+      }
     }
 
     musicToggle.addEventListener("click", async () => {
-      if (bgm.paused || !musicEnabled) {
+      if (bgm.paused) {
         musicEnabled = true;
         try {
           await bgm.play();
@@ -1100,7 +806,7 @@
       voicePlayed = true;
 
       try {
-        if (!bgm.paused && musicEnabled) {
+        if (!bgm.paused) {
           bgm.volume = 0.08;
         }
         voice.currentTime = 0;
@@ -1109,8 +815,23 @@
     }
 
     voice.addEventListener("ended", () => {
-      restoreBgmVolume();
+      if (!bgm.paused && musicEnabled) {
+        bgm.volume = 0.28;
+      }
     });
+
+    function renderPage() {
+      pages.forEach((page, index) => {
+        page.classList.toggle("active", index === currentStep);
+      });
+
+      document.getElementById("pageLabel").textContent = labels[currentStep];
+      renderDots();
+
+      if (currentStep === 2) {
+        playVoiceOnPage3();
+      }
+    }
 
     function renderDots() {
       const dotsWrap = document.getElementById("dots");
@@ -1120,6 +841,8 @@
         const dot = document.createElement("div");
         dot.className = i === currentStep ? "dot active" : "dot";
         dot.onclick = () => {
+          if (i === 1 && !answered) return;
+          if (i === 2 && currentStep < 2) return;
           currentStep = i;
           renderPage();
         };
@@ -1127,69 +850,33 @@
       }
     }
 
-    function renderPage() {
-      pages.forEach((page, index) => {
-        page.classList.toggle("active", index === currentStep);
-      });
-
-      pageLabel.textContent = labels[currentStep];
-      nextBtn.textContent = buttons[currentStep];
-      renderDots();
-
-      if (currentStep === 2) {
-        playVoiceOnPage3();
-      } else {
-        stopVoiceAndRestore();
-      }
-    }
-
-    function nextPage() {
-      currentStep = currentStep < pages.length - 1 ? currentStep + 1 : 0;
+    function goToPage(index) {
+      currentStep = index;
       renderPage();
     }
 
     function prevPage() {
-      currentStep = currentStep > 0 ? currentStep - 1 : 0;
-      renderPage();
+      if (currentStep > 0) {
+        currentStep--;
+        renderPage();
+      }
     }
 
-    function showBubble() {
-      bubble.classList.add("show");
-      clearTimeout(showBubble.timer);
-      showBubble.timer = setTimeout(() => {
-        bubble.classList.remove("show");
-      }, 1800);
+    function toggleSecret() {
+      const box = document.getElementById("tinySecret");
+      box.style.display = box.style.display === "block" ? "none" : "block";
     }
 
-    function burstHearts() {
-      const bursts = [
-        { x: -40, y: -52 },
-        { x: 38, y: -60 },
-        { x: -66, y: -12 },
-        { x: 64, y: -18 },
-        { x: 0, y: -78 }
-      ];
+    function answerQuestion(choice) {
+      if (answered) return;
+      answered = true;
 
-      bursts.forEach((item, i) => {
-        const el = document.createElement("span");
-        el.className = "heart-burst";
-        el.style.left = "50%";
-        el.style.top = "62%";
-        el.style.setProperty("--tx", `${item.x}px`);
-        el.style.setProperty("--ty", `${item.y}px`);
-        el.style.animationDelay = `${i * 40}ms`;
-        endingCard.appendChild(el);
-        setTimeout(() => el.remove(), 1100);
-      });
+      const tip = document.getElementById("answerTip");
+      tip.textContent = `你选了「${choice}」。其实哪一个都可以，只要你愿意把这份小心思认真看完。`;
+      setTimeout(() => {
+        goToPage(1);
+      }, 950);
     }
-
-    stamp.addEventListener("click", () => {
-      stamp.classList.remove("pop");
-      void stamp.offsetWidth;
-      stamp.classList.add("pop");
-      showBubble();
-      burstHearts();
-    });
 
     window.addEventListener("load", () => {
       const loading = document.getElementById("loadingScreen");
@@ -1199,61 +886,21 @@
         loading.classList.add("hidden");
         shell.classList.add("ready");
         await tryPlayBgm();
+        updateMusicButton();
       }, 1050);
     });
 
     const glowOne = document.getElementById("glowOne");
     const glowTwo = document.getElementById("glowTwo");
-    const giftCard = document.getElementById("giftCard");
 
     document.addEventListener("mousemove", (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 12;
       const y = (e.clientY / window.innerHeight - 0.5) * 12;
-
       glowOne.style.transform = `translate(${x}px, ${y}px)`;
       glowTwo.style.transform = `translate(${-x}px, ${-y}px)`;
-
-      if (giftCard && currentStep === 0) {
-        giftCard.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
-      }
     });
 
-    function fallbackIfImageMissing(img, label) {
-      img.onerror = () => {
-        img.style.display = "none";
-        const ph = document.createElement("div");
-        ph.textContent = label;
-        ph.style.position = "absolute";
-        ph.style.bottom = img.classList.contains("cat") ? "18px" : "0";
-        ph.style.width = img.classList.contains("cat") ? "90px" : "120px";
-        ph.style.height = img.classList.contains("cat") ? "90px" : "120px";
-        ph.style.borderRadius = "22px";
-        ph.style.display = "flex";
-        ph.style.alignItems = "center";
-        ph.style.justifyContent = "center";
-        ph.style.background = "rgba(239,229,255,.78)";
-        ph.style.border = "1px dashed #cdb7ef";
-        ph.style.color = "#8c76b0";
-        ph.style.fontSize = "13px";
-        ph.style.lineHeight = "1.5";
-        ph.style.textAlign = "center";
-        ph.style.padding = "8px";
-        ph.style.filter = "drop-shadow(0 10px 18px rgba(123, 99, 168, .14))";
-
-        if (img.classList.contains("xuan")) ph.style.left = "6%";
-        if (img.classList.contains("cat")) ph.style.left = "40%";
-        if (img.classList.contains("me")) ph.style.right = "6%";
-
-        document.getElementById("characterStage").appendChild(ph);
-      };
-    }
-
-    fallbackIfImageMissing(xuanImg, "放\nxuan.png");
-    fallbackIfImageMissing(catImg, "放\ncat.png");
-    fallbackIfImageMissing(meImg, "放\nme.png");
-
     renderPage();
-    updateMusicButton();
   </script>
 </body>
 </html>
