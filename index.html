@@ -305,8 +305,7 @@
       white-space: pre-line;
     }
 
-    .welcome-card,
-    .egg-page {
+    .welcome-card {
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -414,6 +413,27 @@
       color: #5e566b;
       white-space: pre-line;
       padding-bottom: 22px;
+    }
+
+    .egg-page {
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .egg-copy {
+      position: relative;
+      z-index: 2;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .egg-page.reveal .egg-copy {
+      opacity: 0;
+      transform: translateY(-12px) scale(.98);
+      pointer-events: none;
     }
 
     .egg-page p {
@@ -527,22 +547,26 @@
     }
 
     .chibi-inline {
-      margin-top: 18px;
-      width: min(100%, 470px);
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px 52px;
       opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity .35s ease, max-height .55s ease;
+      pointer-events: none;
+      transition: opacity .35s ease;
     }
 
-    .chibi-inline.show {
+    .egg-page.reveal .chibi-inline {
       opacity: 1;
-      max-height: 700px;
+      pointer-events: auto;
     }
 
     .chibi-inline img {
-      width: 100%;
-      max-height: 380px;
+      width: min(100%, 470px);
+      max-height: 360px;
       object-fit: contain;
       display: block;
       border-radius: 20px;
@@ -551,7 +575,7 @@
       opacity: 0;
     }
 
-    .chibi-inline.show img {
+    .egg-page.reveal .chibi-inline img {
       animation: riseInline .6s cubic-bezier(.22,.9,.24,1) forwards;
     }
 
@@ -690,7 +714,7 @@
               </div>
 
               <div class="chibi-inline" id="chibiInline">
-                <img src="./chibi-cake.png?v=3" alt="生日彩蛋插画" id="chibiSceneImg" />
+                <img src="./chibi-cake.png?v=4" alt="生日彩蛋插画" id="chibiSceneImg" />
               </div>
             </div>
             <div class="frame-action">
@@ -967,7 +991,6 @@
       if (!chibiOpened) {
         chibiOpened = true;
         eggPage.classList.add("reveal");
-        chibiInline.classList.add("show");
 
         if (!voicePlayed) {
           voicePlayed = true;
