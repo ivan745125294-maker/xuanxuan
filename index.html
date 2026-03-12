@@ -12,7 +12,6 @@
       --bg2: #fcfbff;
       --bg3: #f3ecff;
       --text: #4b4358;
-      --text-soft: #746b82;
       --paper: #fffdf9;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
     }
@@ -243,7 +242,7 @@
     .frame {
       width: 100%;
       max-width: 760px;
-      min-height: 500px;
+      height: 500px;
       margin: 0 auto;
       position: relative;
       border-radius: 30px;
@@ -277,6 +276,7 @@
     .frame-inner {
       position: relative;
       z-index: 1;
+      height: 100%;
     }
 
     .mini {
@@ -305,12 +305,14 @@
       white-space: pre-line;
     }
 
-    .welcome-card {
-      min-height: 360px;
+    .welcome-card,
+    .egg-page {
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       text-align: center;
+      align-items: center;
     }
 
     .welcome-card h1 {
@@ -328,80 +330,28 @@
     }
 
     .layer-note {
-      margin-top: 22px;
-      padding: 16px 18px;
+      margin-top: 24px;
+      padding: 18px 18px;
       border-radius: 18px;
       background: #faf6ff;
       border: 1px dashed #dfcffd;
-      color: #7a6f88;
-      font-size: 14px;
-      line-height: 1.9;
-      white-space: pre-line;
-    }
-
-    .memory-grid {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .memory-card {
-      padding: 14px 14px 12px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.9);
-      border: 1px solid #eadffd;
-      box-shadow: 0 10px 24px rgba(127, 99, 174, .06);
-    }
-
-    .memory-card .label {
-      font-size: 12px;
-      color: #a18fbd;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .memory-card .content {
-      font-size: 14px;
-      line-height: 1.8;
-      color: #665c75;
-      white-space: pre-line;
-    }
-
-    .tiny-trigger {
-      margin-top: 18px;
-      display: inline-block;
-      color: #866ab8;
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .tiny-secret {
-      display: none;
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: #fff;
-      border: 1px solid #eadffd;
-      font-size: 14px;
-      color: #655c73;
-      line-height: 1.8;
+      color: #6e647d;
+      font-size: 15px;
+      line-height: 1.95;
       white-space: pre-line;
     }
 
     .letter-paper {
       background: var(--paper);
       border-radius: 22px;
-      padding: 24px 22px 86px;
+      padding: 24px 22px 24px;
       border: 1px solid #efe7da;
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.6),
         0 12px 28px rgba(120,100,150,.06);
       position: relative;
-      min-height: 410px;
+      height: 100%;
+      overflow: hidden;
     }
 
     .letter-paper::before {
@@ -440,22 +390,29 @@
       text-transform: uppercase;
     }
 
-    .letter-body {
+    .letter-scroll {
       position: relative;
       z-index: 1;
+      height: calc(100% - 52px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .letter-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .letter-scroll::-webkit-scrollbar-thumb {
+      background: #d9caf3;
+      border-radius: 999px;
+    }
+
+    .letter-body {
       font-size: 16px;
       line-height: 2.25;
       color: #5e566b;
       white-space: pre-line;
-    }
-
-    .egg-page {
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      padding-bottom: 22px;
     }
 
     .egg-page p {
@@ -568,53 +525,40 @@
       background: #a888ea;
     }
 
-    .bottom-text {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 13px;
-      line-height: 1.8;
-      color: #9b90ab;
+    .chibi-inline {
+      margin-top: 18px;
+      width: min(100%, 460px);
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity .35s ease, max-height .55s ease;
     }
 
-    .chibi-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(49, 35, 69, 0.32);
-      backdrop-filter: blur(8px);
-      z-index: 1200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+    .chibi-inline.show {
+      opacity: 1;
+      max-height: 700px;
     }
 
-    .chibi-overlay.show {
-      display: flex;
-    }
-
-    .chibi-stage {
-      width: min(92vw, 560px);
-      background: rgba(255,255,255,0.95);
-      border: 1px solid rgba(230, 219, 255, 0.95);
-      border-radius: 28px;
-      box-shadow: 0 24px 70px rgba(89, 63, 130, 0.18);
-      padding: 20px 20px 18px;
-      position: relative;
+    .chibi-inline img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      box-shadow: 0 18px 40px rgba(109, 90, 139, 0.18);
       transform: translateY(24px) scale(.96);
       opacity: 0;
     }
 
-    .chibi-stage.show {
-      animation: chibiPop .55s cubic-bezier(.2,.9,.2,1) forwards;
+    .chibi-inline.show img {
+      animation: riseInline .7s cubic-bezier(.22,.9,.24,1) forwards;
     }
 
-    @keyframes chibiPop {
+    @keyframes riseInline {
       0% {
-        transform: translateY(28px) scale(.94);
+        transform: translateY(24px) scale(.96);
         opacity: 0;
       }
-      65% {
-        transform: translateY(-4px) scale(1.02);
+      70% {
+        transform: translateY(-3px) scale(1.01);
         opacity: 1;
       }
       100% {
@@ -623,74 +567,18 @@
       }
     }
 
-    .chibi-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 34px;
-      height: 34px;
-      border: none;
-      border-radius: 999px;
-      background: #f3ebff;
-      color: #7b64a7;
-      font-size: 22px;
-      line-height: 1;
-      cursor: pointer;
-    }
-
-    .chibi-close:hover {
-      background: #eadfff;
-    }
-
-    .chibi-caption {
-      text-align: center;
-      font-size: 14px;
-      color: #8b7aa5;
-      margin: 4px 34px 14px;
-    }
-
-    .chibi-scene-img {
-      width: 100%;
-      display: block;
-      border-radius: 20px;
-      transform: translateY(24px);
-      opacity: 0;
-      min-height: 180px;
-      object-fit: cover;
-      background: #faf7ff;
-    }
-
-    .chibi-scene-img.show {
-      animation: sceneRise .7s .08s cubic-bezier(.22,.9,.24,1) forwards;
-    }
-
-    @keyframes sceneRise {
-      0% {
-        transform: translateY(24px);
-        opacity: 0;
-      }
-      70% {
-        transform: translateY(-3px);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
     @media (max-width: 760px) {
       .shell { min-height: auto; }
       .inner { min-height: auto; padding: 18px 14px 16px; }
       .frame {
-        min-height: 520px;
+        height: 520px;
         padding: 24px 18px 84px;
       }
       h1, h2 { font-size: 28px; }
-      .subtext, .letter-body { font-size: 15px; }
+      .subtext, .letter-body, .layer-note { font-size: 15px; }
       .welcome-card h1 { font-size: 30px; }
       .letter-paper {
-        padding: 20px 16px 78px;
+        padding: 20px 16px 20px;
       }
       .letter-paper::before {
         left: 16px;
@@ -698,9 +586,6 @@
       }
       .letter-title {
         font-size: 24px;
-      }
-      .memory-grid {
-        grid-template-columns: 1fr;
       }
       .controls {
         flex-direction: column;
@@ -743,7 +628,6 @@
       </div>
 
       <div class="stage">
-        <!-- page 1 -->
         <section class="page active" id="page0">
           <div class="frame">
             <div class="frame-inner welcome-card">
@@ -752,45 +636,26 @@
               <div class="subtext" id="p1Text"></div>
               <div class="ribbon"></div>
             </div>
-
             <div class="frame-action">
               <button class="frame-btn" id="p1Btn" onclick="goToPage(1)"></button>
             </div>
           </div>
         </section>
 
-        <!-- page 2 -->
         <section class="page" id="page1">
           <div class="frame">
             <div class="frame-inner">
               <div class="mini" id="p2Mini"></div>
               <h2 id="p2Title"></h2>
               <div class="subtext" id="p2Text"></div>
-
-              <div class="memory-grid">
-                <div class="memory-card">
-                  <div class="label" id="p2Card1Label"></div>
-                  <div class="content" id="p2Card1Text"></div>
-                </div>
-                <div class="memory-card">
-                  <div class="label" id="p2Card2Label"></div>
-                  <div class="content" id="p2Card2Text"></div>
-                </div>
-              </div>
-
               <div class="layer-note" id="p2Note"></div>
-
-              <span class="tiny-trigger" id="p2SecretTrigger" onclick="toggleSecret()"></span>
-              <div class="tiny-secret" id="tinySecret"></div>
             </div>
-
             <div class="frame-action">
               <button class="frame-btn" id="p2Btn" onclick="goToPage(2)"></button>
             </div>
           </div>
         </section>
 
-        <!-- page 3 -->
         <section class="page" id="page2">
           <div class="frame">
             <div class="frame-inner">
@@ -800,18 +665,17 @@
                   <div class="letter-title" id="p3Title"></div>
                   <div class="letter-mark" id="p3Mark"></div>
                 </div>
-
-                <div class="letter-body" id="p3Body"></div>
+                <div class="letter-scroll">
+                  <div class="letter-body" id="p3Body"></div>
+                </div>
               </div>
             </div>
-
             <div class="frame-action">
               <button class="frame-btn" id="p3Btn" onclick="goToPage(3)"></button>
             </div>
           </div>
         </section>
 
-        <!-- page 4 -->
         <section class="page" id="page3">
           <div class="frame">
             <div class="frame-inner egg-page">
@@ -819,8 +683,10 @@
               <h2 id="p4Title"></h2>
               <p id="p4Text"></p>
               <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
+              <div class="chibi-inline" id="chibiInline">
+                <img src="chibi-cake.png" alt="生日彩蛋插画" id="chibiSceneImg" />
+              </div>
             </div>
-
             <div class="frame-action">
               <div class="frame-tag" id="p4Tag"></div>
             </div>
@@ -834,16 +700,6 @@
         </div>
         <div class="dots" id="dots"></div>
       </div>
-
-      <div class="bottom-text" id="bottomText"></div>
-    </div>
-  </div>
-
-  <div class="chibi-overlay" id="chibiOverlay" onclick="closeChibiScene(event)">
-    <div class="chibi-stage" id="chibiStage">
-      <button class="chibi-close" onclick="forceCloseChibiScene()" type="button">×</button>
-      <div class="chibi-caption" id="chibiCaption"></div>
-      <img src="chibi-cake.png.png" alt="生日彩蛋插画" class="chibi-scene-img" id="chibiSceneImg" />
     </div>
   </div>
 
@@ -871,14 +727,8 @@
       page2: {
         mini: "hidden layer",
         title: "这一页算礼物里的隐藏小夹层",
-        text: "我们不是那种总有很多话要说的人，可你又一直都在。\n没有很喧闹，却也从来没有真正离开过。",
-        card1Label: "小纸条 01",
-        card1Text: "不是想把礼物做得多夸张，\n只是想让它看起来更像一份认真准备过的心意。",
-        card2Label: "小纸条 02",
-        card2Text: "盒子、花、小细节，还有这一页，\n其实都是一点一点慢慢想出来的。",
-        note: "就像礼物盒里那张小信封一样，\n这一页只是想让整份礼物更完整一点。",
-        secretTrigger: "这里还有一句小小的补充",
-        secretText: "有些心意不一定适合放在最显眼的地方，\n但藏在这里，好像刚刚好。",
+        text: "有些关系不是靠聊天多少来决定的。\n安安静静地在，也已经很难得了。",
+        note: "这一页没有想写得太复杂。\n只是想让这份礼物，不只是一个盒子而已。",
         btn: "继续往下看"
       },
 
@@ -958,15 +808,13 @@
       page4: {
         mini: "final page",
         title: "还有最后一个小彩蛋",
-        text: "如果你已经看到这里了，那这份礼物里藏着的小心思，\n应该也算被你好好收到啦。",
+        text: "如果你已经看到这里了，\n那这份礼物里藏着的小心思，应该也算被你好好收到了。",
         eggBtn: "for 最好的璇璇",
         tag: "最后一页"
       },
 
       common: {
-        prevBtn: "上一层",
-        bottomText: "这一页不是为了热闹，只是想让整份礼物多一点可以被保存下来的东西。",
-        chibiCaption: "生日快乐，璇璇。"
+        prevBtn: "上一层"
       }
     };
 
@@ -975,6 +823,7 @@
     let musicEnabled = true;
     let bgmStarted = false;
     let voicePlayed = false;
+    let chibiOpened = false;
 
     const pages = [
       document.getElementById("page0"),
@@ -986,16 +835,13 @@
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
-    const chibiOverlay = document.getElementById("chibiOverlay");
-    const chibiStage = document.getElementById("chibiStage");
-    const chibiSceneImg = document.getElementById("chibiSceneImg");
+    const chibiInline = document.getElementById("chibiInline");
 
     bgm.volume = 0.26;
     voice.volume = 1.0;
 
     function applyContent() {
       document.getElementById("siteName").textContent = CONTENT.siteName;
-
       document.getElementById("loadingTitle").textContent = CONTENT.loading.title;
       document.getElementById("loadingText").textContent = CONTENT.loading.text;
       document.getElementById("loadingSub").textContent = CONTENT.loading.sub;
@@ -1008,13 +854,7 @@
       document.getElementById("p2Mini").textContent = CONTENT.page2.mini;
       document.getElementById("p2Title").textContent = CONTENT.page2.title;
       document.getElementById("p2Text").textContent = CONTENT.page2.text;
-      document.getElementById("p2Card1Label").textContent = CONTENT.page2.card1Label;
-      document.getElementById("p2Card1Text").textContent = CONTENT.page2.card1Text;
-      document.getElementById("p2Card2Label").textContent = CONTENT.page2.card2Label;
-      document.getElementById("p2Card2Text").textContent = CONTENT.page2.card2Text;
       document.getElementById("p2Note").textContent = CONTENT.page2.note;
-      document.getElementById("p2SecretTrigger").textContent = CONTENT.page2.secretTrigger;
-      document.getElementById("tinySecret").textContent = CONTENT.page2.secretText;
       document.getElementById("p2Btn").textContent = CONTENT.page2.btn;
 
       document.getElementById("p3Mini").textContent = CONTENT.page3.mini;
@@ -1030,11 +870,9 @@
       document.getElementById("p4Tag").textContent = CONTENT.page4.tag;
 
       document.getElementById("prevBtn").textContent = CONTENT.common.prevBtn;
-      document.getElementById("bottomText").textContent = CONTENT.common.bottomText;
-      document.getElementById("chibiCaption").textContent = CONTENT.common.chibiCaption;
     }
 
-    async function tryPlayBgm(source = "manual") {
+    async function tryPlayBgm() {
       if (!musicEnabled) return false;
       try {
         await bgm.play();
@@ -1050,9 +888,7 @@
     function updateMusicButton() {
       if (!musicEnabled) {
         musicToggle.textContent = "♪ 音乐关";
-        return;
-      }
-      if (bgm.paused) {
+      } else if (bgm.paused) {
         musicToggle.textContent = "♪ 点我开音乐";
       } else {
         musicToggle.textContent = "♪ 音乐开";
@@ -1062,14 +898,14 @@
     async function ensureBgmStarted() {
       if (!musicEnabled) return;
       if (!bgmStarted || bgm.paused) {
-        await tryPlayBgm("interaction");
+        await tryPlayBgm();
       }
     }
 
     musicToggle.addEventListener("click", async () => {
       if (bgm.paused) {
         musicEnabled = true;
-        await tryPlayBgm("toggle");
+        await tryPlayBgm();
       } else {
         bgm.pause();
         musicEnabled = false;
@@ -1095,7 +931,6 @@
       pages.forEach((page, index) => {
         page.classList.toggle("active", index === currentStep);
       });
-
       document.getElementById("pageLabel").textContent = labels[currentStep];
       renderDots();
     }
@@ -1103,7 +938,6 @@
     function renderDots() {
       const dotsWrap = document.getElementById("dots");
       dotsWrap.innerHTML = "";
-
       for (let i = 0; i < pages.length; i++) {
         const dot = document.createElement("div");
         dot.className = i === currentStep ? "dot active" : "dot";
@@ -1116,23 +950,11 @@
       }
     }
 
-    function toggleSecret() {
-      const box = document.getElementById("tinySecret");
-      box.style.display = box.style.display === "block" ? "none" : "block";
-    }
-
     async function openChibiScene() {
       await ensureBgmStarted();
 
-      chibiOverlay.classList.add("show");
-      document.body.style.overflow = "hidden";
-      chibiStage.classList.remove("show");
-      chibiSceneImg.classList.remove("show");
-
-      requestAnimationFrame(() => {
-        chibiStage.classList.add("show");
-        chibiSceneImg.classList.add("show");
-      });
+      chibiOpened = !chibiOpened;
+      chibiInline.classList.toggle("show", chibiOpened);
 
       if (!voicePlayed) {
         voicePlayed = true;
@@ -1150,19 +972,6 @@
       }
     });
 
-    function closeChibiScene(event) {
-      if (event.target === chibiOverlay) {
-        forceCloseChibiScene();
-      }
-    }
-
-    function forceCloseChibiScene() {
-      chibiOverlay.classList.remove("show");
-      chibiStage.classList.remove("show");
-      chibiSceneImg.classList.remove("show");
-      document.body.style.overflow = "";
-    }
-
     window.addEventListener("load", () => {
       applyContent();
 
@@ -1172,10 +981,16 @@
       setTimeout(async () => {
         loading.classList.add("hidden");
         shell.classList.add("ready");
-        await tryPlayBgm("load");
+        await tryPlayBgm();
         updateMusicButton();
       }, 1050);
     });
+
+    document.addEventListener("click", async () => {
+      if (!bgmStarted && musicEnabled) {
+        await tryPlayBgm();
+      }
+    }, { once: true });
 
     const glowOne = document.getElementById("glowOne");
     const glowTwo = document.getElementById("glowTwo");
@@ -1187,6 +1002,7 @@
       glowTwo.style.transform = `translate(${-x}px, ${-y}px)`;
     });
 
+    applyContent();
     renderPage();
     updateMusicButton();
   </script>
