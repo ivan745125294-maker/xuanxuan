@@ -11,14 +11,7 @@
       --bg1: #f8f4ff;
       --bg2: #fcfbff;
       --bg3: #f3ecff;
-      --violet: #a88ddb;
-      --violet-deep: #6d5a8b;
-      --violet-soft: #ece2ff;
-      --pink-soft: #f7ddeb;
       --text: #4b4358;
-      --text-soft: #746b82;
-      --paper: #fffdf9;
-      --line: #eadff7;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
     }
 
@@ -36,7 +29,6 @@
       overflow-x: hidden;
     }
 
-    /* loading */
     .loading-screen {
       position: fixed;
       inset: 0;
@@ -190,9 +182,31 @@
       font-size: 13px;
     }
 
+    .meta-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .site-name {
       font-size: 14px;
       color: #a095b2;
+    }
+
+    .music-btn {
+      border: 1px solid #e6dbff;
+      background: #f8f4ff;
+      color: #755f9d;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .music-btn:hover {
+      background: #f0e7ff;
     }
 
     .stage {
@@ -232,7 +246,6 @@
       margin-bottom: 18px;
     }
 
-    /* page 1 */
     .gift-card {
       width: 100%;
       max-width: 760px;
@@ -305,7 +318,6 @@
       box-shadow: 0 6px 16px rgba(168,141,219,.2);
     }
 
-    /* page 2 */
     .layer-stack {
       width: 100%;
       max-width: 720px;
@@ -428,7 +440,6 @@
       white-space: pre-line;
     }
 
-    /* page 3 */
     .letter-shell {
       width: 100%;
       max-width: 760px;
@@ -638,7 +649,10 @@
     <div class="inner">
       <div class="meta">
         <div class="badge" id="pageLabel">01 / 祝福</div>
-        <div class="site-name">璇璇生日附加页</div>
+        <div class="meta-right">
+          <div class="site-name">璇璇生日附加页</div>
+          <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
+        </div>
       </div>
 
       <div class="stage">
@@ -680,15 +694,72 @@
                 <div class="letter-mark">letter</div>
               </div>
 
-              <div class="letter-body">这里换成你自己写的信。
+              <div class="letter-body">璇璇：
 
-你可以直接把正文一段一段贴进来。
-这一页会比前两页更安静，也更适合保存真正想说的话。
+其实一开始，我没想把这份礼物准备得这么复杂。
+本来只是觉得，既然是你的生日，想认真送你一点东西。
+可后来越准备越觉得，如果只是很普通地买一份礼物，好像还是差了一点。
 
-如果你愿意，也可以保留一点留白，
-这样看起来会更像一张认真放进去的信纸。</div>
+因为对我来说，你一直都不是一个可以被“随便对待”的人。
 
-              <div class="letter-sign">—— 徐源</div>
+我们认识已经很久了。
+虽然我们不是那种每天都会聊很多很多的人，
+可你始终都在。
+不是很热闹地存在着，
+却也从来没有真正从我的生活里淡下去。
+
+有时候我会觉得，人与人之间很奇妙。
+有些人不需要天天出现，
+也不会因为时间久了，就变得模糊。
+反而是在某些很安静的时候，
+会突然想起，
+原来这个人一直都还在心里一个很柔软的位置上。
+
+你对我来说，一直都是这样。
+
+所以这次准备礼物的时候，
+我才会忍不住想，
+能不能再多放一点心思，
+能不能让它不只是“生日礼物”这么简单。
+
+我想让你打开的时候，
+看到的不只是盒子里的东西，
+而是会知道，
+这些都是我一点一点想过、挑过、放进去的。
+从礼物本身，到盒子，到里面那些零零碎碎的小细节，
+再到你现在看到的这一页，
+其实都算是我藏进去的一部分心意。
+
+我不知道这些会不会让你觉得惊喜，
+也不知道你会不会在意到这么多细小的地方。
+但对我来说，
+在准备它们的时候，
+我心里一直有一个很简单的念头——
+就是希望你会开心。
+
+希望你收到的时候会笑一下，
+希望你会觉得，
+原来真的有人把这件事放在心上，
+也真的有人愿意为了你，多花一点时间，多花一点心思。
+
+很多话我平时其实不太会说，
+可有些感觉是真的。
+是真的会在挑东西的时候想到你，
+也是真的会在很多很普通的时候，
+突然想起你。
+
+所以如果这份礼物，
+还有这些藏在里面的小心思，
+最后能让你有一点点感动，
+或者只是让你在某个瞬间觉得心里暖了一下，
+那我就会觉得，这一切都很值得。
+
+生日快乐，璇璇。
+也希望你以后一直都能遇到温柔的事，
+遇到真心对待你的人，
+然后一直一直，过得比想象中更幸福一点。
+
+—— 徐源</div>
             </div>
           </div>
         </section>
@@ -709,16 +780,80 @@
     </div>
   </div>
 
+  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+  <audio id="voice" src="voice.m4a" preload="auto"></audio>
+
   <script>
     const labels = ["01 / 祝福", "02 / 夹层", "03 / 信"];
     const buttons = ["继续往下看", "打开最后一层", "再看一遍"];
     let currentStep = 0;
+    let voicePlayed = false;
+    let musicEnabled = true;
 
     const pages = [
       document.getElementById("page0"),
       document.getElementById("page1"),
       document.getElementById("page2")
     ];
+
+    const bgm = document.getElementById("bgm");
+    const voice = document.getElementById("voice");
+    const musicToggle = document.getElementById("musicToggle");
+
+    bgm.volume = 0.28;
+    voice.volume = 1.0;
+
+    async function tryPlayBgm() {
+      if (!musicEnabled) return;
+      try {
+        await bgm.play();
+        musicToggle.textContent = "♪ 音乐开";
+      } catch (e) {
+        musicToggle.textContent = "♪ 点我开音乐";
+      }
+    }
+
+    function updateMusicButton() {
+      if (bgm.paused || !musicEnabled) {
+        musicToggle.textContent = "♪ 音乐关";
+      } else {
+        musicToggle.textContent = "♪ 音乐开";
+      }
+    }
+
+    musicToggle.addEventListener("click", async () => {
+      if (bgm.paused) {
+        musicEnabled = true;
+        try {
+          await bgm.play();
+        } catch (e) {}
+      } else {
+        bgm.pause();
+        musicEnabled = false;
+      }
+      updateMusicButton();
+    });
+
+    async function playVoiceOnPage3() {
+      if (voicePlayed) return;
+      voicePlayed = true;
+
+      try {
+        if (!bgm.paused) {
+          bgm.volume = 0.08;
+        }
+        voice.currentTime = 0;
+        await voice.play();
+      } catch (e) {
+        // 移动端如果拦截也不报错
+      }
+    }
+
+    voice.addEventListener("ended", () => {
+      if (!bgm.paused && musicEnabled) {
+        bgm.volume = 0.28;
+      }
+    });
 
     function renderPage() {
       pages.forEach((page, index) => {
@@ -728,6 +863,10 @@
       document.getElementById("pageLabel").textContent = labels[currentStep];
       document.getElementById("nextBtn").textContent = buttons[currentStep];
       renderDots();
+
+      if (currentStep === 2) {
+        playVoiceOnPage3();
+      }
     }
 
     function renderDots() {
@@ -760,19 +899,18 @@
       box.style.display = box.style.display === "block" ? "none" : "block";
     }
 
-    // loading
     window.addEventListener("load", () => {
       const loading = document.getElementById("loadingScreen");
       const shell = document.getElementById("shell");
 
-      setTimeout(() => {
+      setTimeout(async () => {
         loading.classList.add("hidden");
         shell.classList.add("ready");
+        await tryPlayBgm();
+        updateMusicButton();
       }, 1050);
     });
 
-    // subtle parallax
-    const shell = document.getElementById("shell");
     const glowOne = document.getElementById("glowOne");
     const glowTwo = document.getElementById("glowTwo");
     const giftCard = document.getElementById("giftCard");
