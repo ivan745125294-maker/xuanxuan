@@ -396,6 +396,7 @@
       height: calc(100% - 52px);
       overflow-y: auto;
       padding-right: 8px;
+      padding-bottom: 96px;
     }
 
     .letter-scroll::-webkit-scrollbar {
@@ -428,7 +429,7 @@
       position: absolute;
       right: 28px;
       bottom: 28px;
-      z-index: 2;
+      z-index: 5;
     }
 
     .frame-btn {
@@ -543,7 +544,7 @@
       width: 100%;
       display: block;
       border-radius: 20px;
-      box-shadow: 0 18px 40px rgba(109, 90, 139, 0.18);
+      box-shadow: none;
       transform: translateY(24px) scale(.96);
       opacity: 0;
     }
@@ -684,7 +685,7 @@
               <p id="p4Text"></p>
               <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
               <div class="chibi-inline" id="chibiInline">
-                <img src="chibi-cake.png" alt="生日彩蛋插画" id="chibiSceneImg" />
+                <img src="./chibi-cake.png?v=2" alt="生日彩蛋插画" id="chibiSceneImg" />
               </div>
             </div>
             <div class="frame-action">
@@ -703,8 +704,8 @@
     </div>
   </div>
 
-  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
-  <audio id="voice" src="voice.m4a" preload="auto"></audio>
+  <audio id="bgm" src="./bgm.m4a" loop preload="auto"></audio>
+  <audio id="voice" src="./voice.m4a" preload="auto"></audio>
 
   <script>
     const CONTENT = {
@@ -727,8 +728,8 @@
       page2: {
         mini: "hidden layer",
         title: "这一页算礼物里的隐藏小夹层",
-        text: "有些关系不是靠聊天多少来决定的。\n安安静静地在，也已经很难得了。",
-        note: "这一页没有想写得太复杂。\n只是想让这份礼物，不只是一个盒子而已。",
+        text: "这里写你想放的第一段内容",
+        note: "这里写你想放的第二段内容",
         btn: "继续往下看"
       },
 
@@ -839,9 +840,11 @@
 
     bgm.volume = 0.26;
     voice.volume = 1.0;
+    bgm.muted = false;
 
     function applyContent() {
       document.getElementById("siteName").textContent = CONTENT.siteName;
+
       document.getElementById("loadingTitle").textContent = CONTENT.loading.title;
       document.getElementById("loadingText").textContent = CONTENT.loading.text;
       document.getElementById("loadingSub").textContent = CONTENT.loading.sub;
@@ -875,6 +878,7 @@
     async function tryPlayBgm() {
       if (!musicEnabled) return false;
       try {
+        bgm.muted = false;
         await bgm.play();
         bgmStarted = true;
         updateMusicButton();
@@ -902,7 +906,8 @@
       }
     }
 
-    musicToggle.addEventListener("click", async () => {
+    musicToggle.addEventListener("click", async (e) => {
+      e.stopPropagation();
       if (bgm.paused) {
         musicEnabled = true;
         await tryPlayBgm();
@@ -986,7 +991,7 @@
       }, 1050);
     });
 
-    document.addEventListener("click", async () => {
+    document.addEventListener("pointerdown", async () => {
       if (!bgmStarted && musicEnabled) {
         await tryPlayBgm();
       }
