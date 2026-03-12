@@ -15,10 +15,12 @@
       --paper: #fffdf9;
       --shadow: 0 24px 70px rgba(118, 92, 167, 0.12);
       --card-border: rgba(232,222,248,.95);
-      --lavender: #d8c7ff;
-      --pink: #efdae8;
       --deep: #43384f;
       --soft: #6a6177;
+      --line: rgba(224,210,247,.72);
+      --accent: #a888ea;
+      --accent-soft: #e9dcff;
+      --btn-dark: #4d3f63;
     }
 
     html, body {
@@ -256,33 +258,49 @@
       margin-bottom: 18px;
     }
 
-    .card-wrap {
+    .page-frame {
       width: 100%;
       max-width: 760px;
       margin: 0 auto;
+      padding: 26px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(250,246,255,.96));
+      border: 1px solid #eadffd;
+      box-shadow: 0 16px 40px rgba(104,82,145,.08);
+      position: relative;
     }
 
-    .main-card {
+    .page-frame::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      pointer-events: none;
+    }
+
+    .main-card,
+    .fold-note,
+    .ending-card {
       width: 100%;
       position: relative;
-      border-radius: 30px;
+      border-radius: 24px;
       padding: 40px 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
-      border: 1px solid var(--card-border);
-      box-shadow: 0 16px 40px rgba(104,82,145,.08);
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(232,222,248,.7);
+      box-shadow: none;
       text-align: center;
       overflow: hidden;
     }
 
     .main-card::before,
-    .letter-paper::after,
-    .ending-card::before,
-    .fold-note::before {
+    .fold-note::before,
+    .ending-card::before {
       content: "";
       position: absolute;
-      inset: 14px;
-      border-radius: 22px;
-      border: 1px solid rgba(224,210,247,.7);
+      inset: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(224,210,247,.48);
       pointer-events: none;
     }
 
@@ -319,21 +337,8 @@
     }
 
     /* page 2 */
-    .fold-note-wrap {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
     .fold-note {
-      position: relative;
-      border-radius: 30px;
       padding: 34px 24px 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
-      border: 1px solid var(--card-border);
-      box-shadow: 0 16px 40px rgba(104,82,145,.08);
-      overflow: hidden;
-      text-align: center;
     }
 
     .fold-paper {
@@ -395,28 +400,20 @@
     }
 
     /* page 3 */
-    .letter-shell {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 22px;
-      border-radius: 30px;
-      background: linear-gradient(180deg, rgba(245,237,255,.82), rgba(255,255,255,.96));
-      border: 1px solid #eadffd;
-      box-shadow: 0 16px 40px rgba(104,82,145,.08);
-    }
-
     .letter-paper {
       background: var(--paper);
-      border-radius: 22px;
-      padding: 28px 22px;
+      border-radius: 24px;
+      padding: 24px 20px;
       border: 1px solid #efe7da;
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.6),
-        0 12px 28px rgba(120,100,150,.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.6);
       position: relative;
-      transform-origin: top center;
       animation: unfold .75s ease;
+    }
+
+    .letter-fixed {
+      height: 540px;
+      display: flex;
+      flex-direction: column;
     }
 
     @keyframes unfold {
@@ -433,10 +430,10 @@
     .letter-paper::before {
       content: "";
       position: absolute;
-      left: 22px;
-      right: 22px;
-      top: 72px;
-      bottom: 22px;
+      left: 20px;
+      right: 20px;
+      top: 68px;
+      bottom: 20px;
       background-image: linear-gradient(to bottom, rgba(210,198,225,.18) 1px, transparent 1px);
       background-size: 100% 38px;
       pointer-events: none;
@@ -444,13 +441,14 @@
 
     .letter-head {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
     .letter-title {
@@ -466,31 +464,35 @@
 
     .letter-body {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       font-size: 16px;
       line-height: 2.35;
       color: #5e566b;
       white-space: pre-line;
-      min-height: 310px;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+      margin-top: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #ccb6ef transparent;
+    }
+
+    .letter-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .letter-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .letter-body::-webkit-scrollbar-thumb {
+      background: #ccb6ef;
+      border-radius: 999px;
     }
 
     /* page 4 */
-    .ending-wrap {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
     .ending-card {
-      position: relative;
-      border-radius: 30px;
-      padding: 40px 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(250,246,255,.96));
-      border: 1px solid var(--card-border);
-      box-shadow: 0 16px 40px rgba(104,82,145,.08);
-      text-align: center;
-      overflow: hidden;
-      min-height: 420px;
+      min-height: 430px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -503,8 +505,8 @@
 
     .ending-stamp {
       margin-top: 24px;
-      width: 120px;
-      height: 120px;
+      width: 126px;
+      height: 126px;
       border-radius: 999px;
       display: flex;
       align-items: center;
@@ -514,9 +516,28 @@
       background: linear-gradient(180deg, #f1e3ff, #ddc7ff);
       color: #7a5da8;
       font-size: 16px;
-      line-height: 1.4;
+      line-height: 1.45;
       box-shadow: 0 14px 28px rgba(145, 113, 196, .18);
       border: 1px solid rgba(255,255,255,.72);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+      user-select: none;
+      position: relative;
+      z-index: 4;
+    }
+
+    .ending-stamp:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .ending-stamp.pop {
+      animation: stampPop .45s ease;
+    }
+
+    @keyframes stampPop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.08); }
+      100% { transform: scale(1); }
     }
 
     .ending-line {
@@ -525,6 +546,51 @@
       color: #8b7f9f;
       line-height: 2;
       white-space: pre-line;
+      position: relative;
+      z-index: 3;
+    }
+
+    .character-stage {
+      width: 100%;
+      max-width: 620px;
+      height: 220px;
+      margin-top: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .character {
+      position: absolute;
+      bottom: 0;
+      user-select: none;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 18px rgba(123, 99, 168, .14));
+      animation: floaty 3.6s ease-in-out infinite;
+      object-fit: contain;
+    }
+
+    .character.xuan {
+      width: 150px;
+      left: 6%;
+      animation-delay: .1s;
+    }
+
+    .character.cat {
+      width: 108px;
+      left: 40%;
+      bottom: 2px;
+      animation-delay: .8s;
+    }
+
+    .character.me {
+      width: 150px;
+      right: 6%;
+      animation-delay: .45s;
+    }
+
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
     }
 
     .sparkles {
@@ -549,6 +615,61 @@
     @keyframes floatSpark {
       0%,100% { transform: translateY(0) scale(1); opacity: .35; }
       50% { transform: translateY(-12px) scale(1.12); opacity: .9; }
+    }
+
+    .bubble {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%) translateY(10px);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(225, 213, 247, .95);
+      color: #7a66a1;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 14px;
+      line-height: 1.4;
+      box-shadow: 0 12px 28px rgba(136, 109, 186, .12);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 5;
+      white-space: nowrap;
+    }
+
+    .bubble.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateY(0);
+    }
+
+    .heart-burst {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      animation: burst 900ms ease forwards;
+    }
+
+    .heart-burst::before {
+      content: "❤";
+      font-size: 12px;
+      color: #c592ff;
+    }
+
+    @keyframes burst {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(.6);
+      }
+      15% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(1.4);
+      }
     }
 
     .controls {
@@ -589,7 +710,7 @@
     .primary-btn {
       padding: 13px 18px;
       border-radius: 18px;
-      background: #3f354c;
+      background: var(--btn-dark);
       color: #fff;
       font-size: 14px;
       box-shadow: 0 8px 18px rgba(63,53,76,.18);
@@ -624,23 +745,61 @@
     @media (max-width: 760px) {
       .shell { min-height: auto; }
       .inner { min-height: auto; padding: 18px 14px 16px; }
+      .page-frame { padding: 16px; }
       .main-card, .fold-note, .ending-card { padding: 28px 18px; }
       .title-lg, .ending-title, .letter-title { font-size: 29px; }
       .subtext, .ending-sub, .letter-body, .fold-text { font-size: 15px; }
-      .letter-paper { padding: 24px 16px; }
-      .letter-paper::before { left: 16px; right: 16px; }
+
+      .letter-fixed { height: 500px; }
+      .letter-paper { padding: 20px 14px; }
+      .letter-paper::before {
+        left: 14px;
+        right: 14px;
+        top: 64px;
+        bottom: 14px;
+      }
       .letter-title { font-size: 24px; }
+
       .controls {
         flex-direction: column;
         align-items: stretch;
       }
       .btn-group { justify-content: center; }
+      .site-name { display: none; }
+
       .ending-stamp {
         width: 108px;
         height: 108px;
         font-size: 15px;
       }
-      .site-name { display: none; }
+
+      .character-stage {
+        height: 180px;
+        margin-top: 18px;
+      }
+
+      .character.xuan {
+        width: 112px;
+        left: 2%;
+      }
+
+      .character.cat {
+        width: 84px;
+        left: 39%;
+      }
+
+      .character.me {
+        width: 112px;
+        right: 2%;
+      }
+
+      .bubble {
+        font-size: 13px;
+        max-width: 86%;
+        white-space: normal;
+        text-align: center;
+        padding: 10px 14px;
+      }
     }
   </style>
 </head>
@@ -671,51 +830,115 @@
       </div>
 
       <div class="stage">
+        <!-- 第1页 -->
         <section class="page active" id="page0">
-          <div class="card-wrap">
+          <div class="page-frame">
             <div class="main-card" id="giftCard">
               <div class="mini">opening</div>
-              <h1 class="title-lg">璇璇，生日快乐</h1>
-              <div class="subtext">愿你新的一岁平安、明亮、顺遂。
-也希望你一直被温柔对待。</div>
+              <h1 class="title-lg" id="page1Title"></h1>
+              <div class="subtext" id="page1Desc"></div>
               <div class="ribbon"></div>
             </div>
           </div>
         </section>
 
+        <!-- 第2页 -->
         <section class="page" id="page1">
-          <div class="fold-note-wrap">
+          <div class="page-frame">
             <div class="fold-note">
               <div class="mini">a small note</div>
-              <h2 class="title-lg" style="font-size:36px;">藏在里面的一张小纸条</h2>
-              <div class="subtext">有些话不适合放在最前面，
-所以我把它留在这一层。</div>
+              <h2 class="title-lg" style="font-size:36px;" id="page2Title"></h2>
+              <div class="subtext" id="page2Desc"></div>
 
               <div class="fold-paper">
                 <div class="fold-inner">
-                  <div class="fold-head">写给你的补充</div>
-                  <div class="fold-text">其实这一页想说的很简单。
-
-你对我来说，
-一直都不是一个可以被随便对待的人。
-
-所以这份礼物里，
-我才会忍不住想再多放一点认真。</div>
+                  <div class="fold-head" id="page2NoteTitle"></div>
+                  <div class="fold-text" id="page2NoteBody"></div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        <!-- 第3页 -->
         <section class="page" id="page2">
-          <div class="letter-shell">
-            <div class="letter-paper">
+          <div class="page-frame">
+            <div class="letter-paper letter-fixed">
               <div class="letter-head">
-                <div class="letter-title">写给璇璇的话</div>
+                <div class="letter-title" id="page3Title"></div>
                 <div class="letter-mark">letter</div>
               </div>
+              <div class="letter-body" id="page3Body"></div>
+            </div>
+          </div>
+        </section>
 
-              <div class="letter-body">璇璇：
+        <!-- 第4页 -->
+        <section class="page" id="page3">
+          <div class="page-frame">
+            <div class="ending-card" id="endingCard">
+              <div class="sparkles">
+                <div class="spark">✦</div>
+                <div class="spark">✧</div>
+                <div class="spark">✦</div>
+                <div class="spark">✧</div>
+              </div>
+
+              <div class="mini">final page</div>
+              <div class="ending-title" id="page4Title"></div>
+              <div class="ending-sub" id="page4Desc"></div>
+
+              <div class="character-stage" id="characterStage">
+                <!-- ========= 图片素材区：把文件名换成你的图 ========= -->
+                <img src="xuan.png" class="character xuan" id="xuanImg" alt="璇璇形象">
+                <img src="cat.png" class="character cat" id="catImg" alt="猫咪形象">
+                <img src="me.png" class="character me" id="meImg" alt="我的形象">
+                <!-- ========= 图片素材区结束 ========= -->
+              </div>
+
+              <div class="ending-stamp" id="page4Stamp"></div>
+              <div class="bubble" id="endingBubble"></div>
+              <div class="ending-line" id="page4Sign"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="controls">
+        <div class="btn-group">
+          <button class="ghost-btn" onclick="prevPage()">上一层</button>
+          <button class="primary-btn" id="nextBtn" onclick="nextPage()">继续往下看</button>
+        </div>
+
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
+  <audio id="voice" src="voice.m4a" preload="auto"></audio>
+
+  <script>
+    /* ========= 可替换文案区：以后主要改这里 ========= */
+    const TEXTS = {
+      page1Title: "璇璇，生日快乐",
+      page1Desc: `愿你新的一岁平安、明亮、顺遂。
+也希望你一直被温柔对待。`,
+
+      page2Title: "藏在里面的一张小纸条",
+      page2Desc: `有些话不适合放在最前面，
+所以我把它留在这一层。`,
+      page2NoteTitle: "写给你的补充",
+      page2NoteBody: `其实这一页想说的很简单。
+
+你对我来说，
+一直都不是一个可以被随便对待的人。
+
+所以这份礼物里，
+我才会忍不住想再多放一点认真。`,
+
+      page3Title: "写给璇璇的话",
+      page3Body: `璇璇：
 
 其实一开始，我没想把这份礼物准备得这么复杂。
 本来只是觉得，既然是你的生日，想认真送你一点东西。
@@ -773,52 +996,17 @@
 还有这些藏在里面的小心思，
 最后能让你有一点点感动，
 或者只是让你在某个瞬间觉得心里暖了一下，
-那我就会觉得，这一切都很值得。</div>
-            </div>
-          </div>
-        </section>
+那我就会觉得，这一切都很值得。`,
 
-        <section class="page" id="page3">
-          <div class="ending-wrap">
-            <div class="ending-card">
-              <div class="sparkles">
-                <div class="spark">✦</div>
-                <div class="spark">✧</div>
-                <div class="spark">✦</div>
-                <div class="spark">✧</div>
-              </div>
+      page4Title: "生日快乐，璇璇",
+      page4Desc: `希望你新的一岁平安、明亮、顺遂。
+希望你被认真对待，也被温柔包围。`,
+      page4Stamp: "For<br>最好的璇子",
+      page4Sign: "—— 徐源",
+      page4Bubble: "今天也要开开心心 ✦"
+    };
+    /* ========= 可替换文案区结束 ========= */
 
-              <div class="mini">final page</div>
-              <div class="ending-title">生日快乐，璇璇</div>
-              <div class="ending-sub">希望你新的一岁平安、明亮、顺遂。
-希望你被认真对待，也被温柔包围。
-
-这份小礼物到这里就结束了，
-但我想留下来的心意，不会只停在这里。</div>
-
-              <div class="ending-stamp">For<br>最好的璇子</div>
-
-              <div class="ending-line">—— 徐源</div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="controls">
-        <div class="btn-group">
-          <button class="ghost-btn" onclick="prevPage()">上一层</button>
-          <button class="primary-btn" id="nextBtn" onclick="nextPage()">继续往下看</button>
-        </div>
-
-        <div class="dots" id="dots"></div>
-      </div>
-    </div>
-  </div>
-
-  <audio id="bgm" src="bgm.m4a" loop preload="auto"></audio>
-  <audio id="voice" src="voice.m4a" preload="auto"></audio>
-
-  <script>
     const labels = ["01 / 开场", "02 / 纸条", "03 / 话", "04 / 收尾"];
     const buttons = ["继续往下看", "继续往下看", "收下最后一句", "再看一遍"];
 
@@ -838,9 +1026,34 @@
     const musicToggle = document.getElementById("musicToggle");
     const pageLabel = document.getElementById("pageLabel");
     const nextBtn = document.getElementById("nextBtn");
+    const bubble = document.getElementById("endingBubble");
+    const stamp = document.getElementById("page4Stamp");
+    const endingCard = document.getElementById("endingCard");
+    const xuanImg = document.getElementById("xuanImg");
+    const catImg = document.getElementById("catImg");
+    const meImg = document.getElementById("meImg");
 
     bgm.volume = 0.28;
     voice.volume = 1.0;
+
+    /* ========= 文案注入：一般不用改下面 ========= */
+    document.getElementById("page1Title").textContent = TEXTS.page1Title;
+    document.getElementById("page1Desc").textContent = TEXTS.page1Desc;
+
+    document.getElementById("page2Title").textContent = TEXTS.page2Title;
+    document.getElementById("page2Desc").textContent = TEXTS.page2Desc;
+    document.getElementById("page2NoteTitle").textContent = TEXTS.page2NoteTitle;
+    document.getElementById("page2NoteBody").textContent = TEXTS.page2NoteBody;
+
+    document.getElementById("page3Title").textContent = TEXTS.page3Title;
+    document.getElementById("page3Body").textContent = TEXTS.page3Body;
+
+    document.getElementById("page4Title").textContent = TEXTS.page4Title;
+    document.getElementById("page4Desc").textContent = TEXTS.page4Desc;
+    document.getElementById("page4Stamp").innerHTML = TEXTS.page4Stamp;
+    document.getElementById("page4Sign").textContent = TEXTS.page4Sign;
+    bubble.textContent = TEXTS.page4Bubble;
+    /* ========= 文案注入结束 ========= */
 
     function updateMusicButton() {
       musicToggle.textContent = (!bgm.paused && musicEnabled) ? "♪ 关闭音乐" : "♪ 打开音乐";
@@ -940,6 +1153,44 @@
       renderPage();
     }
 
+    function showBubble() {
+      bubble.classList.add("show");
+      clearTimeout(showBubble.timer);
+      showBubble.timer = setTimeout(() => {
+        bubble.classList.remove("show");
+      }, 1800);
+    }
+
+    function burstHearts() {
+      const bursts = [
+        { x: -40, y: -52 },
+        { x: 38, y: -60 },
+        { x: -66, y: -12 },
+        { x: 64, y: -18 },
+        { x: 0, y: -78 }
+      ];
+
+      bursts.forEach((item, i) => {
+        const el = document.createElement("span");
+        el.className = "heart-burst";
+        el.style.left = "50%";
+        el.style.top = "62%";
+        el.style.setProperty("--tx", `${item.x}px`);
+        el.style.setProperty("--ty", `${item.y}px`);
+        el.style.animationDelay = `${i * 40}ms`;
+        endingCard.appendChild(el);
+        setTimeout(() => el.remove(), 1100);
+      });
+    }
+
+    stamp.addEventListener("click", () => {
+      stamp.classList.remove("pop");
+      void stamp.offsetWidth;
+      stamp.classList.add("pop");
+      showBubble();
+      burstHearts();
+    });
+
     window.addEventListener("load", () => {
       const loading = document.getElementById("loadingScreen");
       const shell = document.getElementById("shell");
@@ -966,6 +1217,40 @@
         giftCard.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
       }
     });
+
+    function fallbackIfImageMissing(img, label) {
+      img.onerror = () => {
+        img.style.display = "none";
+        const ph = document.createElement("div");
+        ph.textContent = label;
+        ph.style.position = "absolute";
+        ph.style.bottom = img.classList.contains("cat") ? "18px" : "0";
+        ph.style.width = img.classList.contains("cat") ? "90px" : "120px";
+        ph.style.height = img.classList.contains("cat") ? "90px" : "120px";
+        ph.style.borderRadius = "22px";
+        ph.style.display = "flex";
+        ph.style.alignItems = "center";
+        ph.style.justifyContent = "center";
+        ph.style.background = "rgba(239,229,255,.78)";
+        ph.style.border = "1px dashed #cdb7ef";
+        ph.style.color = "#8c76b0";
+        ph.style.fontSize = "13px";
+        ph.style.lineHeight = "1.5";
+        ph.style.textAlign = "center";
+        ph.style.padding = "8px";
+        ph.style.filter = "drop-shadow(0 10px 18px rgba(123, 99, 168, .14))";
+
+        if (img.classList.contains("xuan")) ph.style.left = "6%";
+        if (img.classList.contains("cat")) ph.style.left = "40%";
+        if (img.classList.contains("me")) ph.style.right = "6%";
+
+        document.getElementById("characterStage").appendChild(ph);
+      };
+    }
+
+    fallbackIfImageMissing(xuanImg, "放\nxuan.png");
+    fallbackIfImageMissing(catImg, "放\ncat.png");
+    fallbackIfImageMissing(meImg, "放\nme.png");
 
     renderPage();
     updateMusicButton();
