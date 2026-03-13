@@ -153,6 +153,47 @@
       left: -70px;
     }
 
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,.7);
+      box-shadow: 0 0 18px rgba(226, 208, 255, .7);
+      animation: floatParticle linear infinite;
+      opacity: .55;
+    }
+
+    .particle.p1 { width: 5px; height: 5px; left: 10%; top: 90%; animation-duration: 12s; animation-delay: 0s; }
+    .particle.p2 { width: 4px; height: 4px; left: 22%; top: 96%; animation-duration: 15s; animation-delay: 1s; }
+    .particle.p3 { width: 6px; height: 6px; left: 36%; top: 92%; animation-duration: 13s; animation-delay: 2s; }
+    .particle.p4 { width: 4px; height: 4px; left: 54%; top: 94%; animation-duration: 16s; animation-delay: 1.5s; }
+    .particle.p5 { width: 5px; height: 5px; left: 68%; top: 98%; animation-duration: 14s; animation-delay: .5s; }
+    .particle.p6 { width: 4px; height: 4px; left: 82%; top: 95%; animation-duration: 17s; animation-delay: 2.2s; }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) translateX(0) scale(.95);
+        opacity: 0;
+      }
+      12% {
+        opacity: .45;
+      }
+      70% {
+        opacity: .55;
+      }
+      100% {
+        transform: translateY(-760px) translateX(22px) scale(1.15);
+        opacity: 0;
+      }
+    }
+
     .inner {
       position: relative;
       z-index: 1;
@@ -195,6 +236,15 @@
       color: #a095b2;
     }
 
+    .page-count {
+      font-size: 13px;
+      color: #9b8eb0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(248,244,255,.86);
+      border: 1px solid #ebe1ff;
+    }
+
     .music-btn {
       border: 1px solid #e6dbff;
       background: #f8f4ff;
@@ -216,6 +266,7 @@
       align-items: center;
       justify-content: center;
       padding-top: 8px;
+      position: relative;
     }
 
     .page {
@@ -312,6 +363,7 @@
       justify-content: center;
       text-align: center;
       align-items: center;
+      position: relative;
     }
 
     .welcome-card h1 {
@@ -326,6 +378,66 @@
       margin: 28px auto 0;
       opacity: .85;
       box-shadow: 0 6px 16px rgba(168,141,219,.2);
+    }
+
+    .music-hint {
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(248,244,255,.85);
+      border: 1px solid #e8dcff;
+      color: #856fae;
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: .95;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+
+    .music-hint.hidden {
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+    }
+
+    .corner-whisper {
+      position: absolute;
+      top: 18px;
+      right: 8px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .whisper-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #e6d8ff, #f5e0eb);
+      box-shadow: 0 0 0 6px rgba(241,233,255,.45);
+      opacity: .92;
+    }
+
+    .whisper-card {
+      max-width: 200px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid #ece2ff;
+      color: #8a7ea1;
+      font-size: 12px;
+      line-height: 1.7;
+      box-shadow: 0 10px 24px rgba(134,112,170,.08);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all .25s ease;
+      pointer-events: none;
+    }
+
+    .corner-whisper:hover .whisper-card {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .layer-note {
@@ -422,6 +534,11 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      transition: background .4s ease;
+    }
+
+    .egg-page.reveal {
+      background: radial-gradient(circle at center, rgba(250,244,255,.55), transparent 65%);
     }
 
     .egg-copy {
@@ -461,12 +578,27 @@
       color: #fff;
       font-size: 14px;
       box-shadow: 0 8px 18px rgba(63,53,76,.18);
-      transition: transform .15s ease, opacity .15s ease;
+      transition: transform .15s ease, opacity .15s ease, box-shadow .2s ease;
+      transform-origin: center;
     }
 
     .frame-btn:hover {
       transform: translateY(-1px);
       opacity: .96;
+      box-shadow: 0 12px 22px rgba(63,53,76,.22);
+    }
+
+    .frame-btn.tap,
+    .ghost-btn.tap,
+    .egg-btn.tap,
+    .music-btn.tap {
+      animation: buttonTap .28s ease;
+    }
+
+    @keyframes buttonTap {
+      0% { transform: scale(1); }
+      40% { transform: scale(.965); }
+      100% { transform: scale(1); }
     }
 
     .frame-tag {
@@ -519,10 +651,12 @@
       color: #715c98;
       font-size: 14px;
       cursor: pointer;
+      transition: transform .15s ease, background .2s ease;
     }
 
     .ghost-btn:hover {
       background: #eee6ff;
+      transform: translateY(-1px);
     }
 
     .dots {
@@ -594,6 +728,92 @@
       }
     }
 
+    .final-message {
+      position: absolute;
+      left: 50%;
+      bottom: 86px;
+      transform: translateX(-50%) translateY(12px);
+      z-index: 4;
+      width: min(88%, 520px);
+      padding: 14px 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(233,223,250,.95);
+      color: #6e627d;
+      font-size: 15px;
+      line-height: 1.9;
+      box-shadow: 0 14px 30px rgba(120, 100, 150, .08);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .45s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    .final-message.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .replay-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%) translateY(10px);
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      transition: all .45s ease;
+    }
+
+    .replay-wrap.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .replay-btn {
+      padding: 11px 18px;
+      border: 1px solid #e5d8ff;
+      background: rgba(251,248,255,.96);
+      color: #755f9d;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(135, 108, 183, 0.10);
+      transition: all .2s ease;
+    }
+
+    .replay-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(247,240,255,.98);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%) translateY(18px);
+      z-index: 1200;
+      min-width: min(86vw, 320px);
+      max-width: min(88vw, 420px);
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(67,56,79,.92);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.7;
+      box-shadow: 0 16px 36px rgba(67,56,79,.22);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .25s ease;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     @media (max-width: 760px) {
       .shell { min-height: auto; }
       .inner { min-height: auto; padding: 18px 14px 16px; }
@@ -625,6 +845,20 @@
         right: 18px;
         bottom: 18px;
       }
+      .final-message {
+        bottom: 88px;
+        font-size: 14px;
+      }
+      .page-count {
+        order: 3;
+      }
+      .corner-whisper {
+        top: 12px;
+        right: 2px;
+      }
+      .music-hint {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -645,11 +879,21 @@
     <div class="glow one" id="glowOne"></div>
     <div class="glow two" id="glowTwo"></div>
 
+    <div class="particles" aria-hidden="true">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+      <span class="particle p5"></span>
+      <span class="particle p6"></span>
+    </div>
+
     <div class="inner">
       <div class="meta">
         <div class="badge" id="pageLabel"></div>
         <div class="meta-right">
           <div class="site-name" id="siteName"></div>
+          <div class="page-count" id="pageCount"></div>
           <button class="music-btn" id="musicToggle" type="button">♪ 音乐开</button>
         </div>
       </div>
@@ -658,13 +902,19 @@
         <section class="page active" id="page0">
           <div class="frame">
             <div class="frame-inner welcome-card">
+              <div class="corner-whisper">
+                <div class="whisper-dot"></div>
+                <div class="whisper-card" id="whisperText"></div>
+              </div>
+
               <div class="mini" id="p1Mini"></div>
               <h1 id="p1Title"></h1>
               <div class="subtext" id="p1Text"></div>
+              <div class="music-hint" id="musicHint"></div>
               <div class="ribbon"></div>
             </div>
             <div class="frame-action">
-              <button class="frame-btn" id="p1Btn" onclick="goToPage(1)"></button>
+              <button class="frame-btn" id="p1Btn" onclick="goToPage(1, this)"></button>
             </div>
           </div>
         </section>
@@ -678,7 +928,7 @@
               <div class="layer-note" id="p2Note"></div>
             </div>
             <div class="frame-action">
-              <button class="frame-btn" id="p2Btn" onclick="goToPage(2)"></button>
+              <button class="frame-btn" id="p2Btn" onclick="goToPage(2, this)"></button>
             </div>
           </div>
         </section>
@@ -698,7 +948,7 @@
               </div>
             </div>
             <div class="frame-action">
-              <button class="frame-btn" id="p3Btn" onclick="goToPage(3)"></button>
+              <button class="frame-btn" id="p3Btn" onclick="goToPage(3, this)"></button>
             </div>
           </div>
         </section>
@@ -710,11 +960,17 @@
                 <div class="mini" id="p4Mini"></div>
                 <h2 id="p4Title"></h2>
                 <p id="p4Text"></p>
-                <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene()"></button>
+                <button class="egg-btn" id="p4EggBtn" onclick="openChibiScene(this)"></button>
               </div>
 
               <div class="chibi-inline" id="chibiInline">
                 <img src="./chibi-cake.png?v=4" alt="生日彩蛋插画" id="chibiSceneImg" />
+              </div>
+
+              <div class="final-message" id="finalMessage"></div>
+
+              <div class="replay-wrap" id="replayWrap">
+                <button class="replay-btn" id="replayBtn" onclick="restartStory(this)"></button>
               </div>
             </div>
             <div class="frame-action">
@@ -726,12 +982,14 @@
 
       <div class="controls">
         <div class="btn-group">
-          <button class="ghost-btn" id="prevBtn" onclick="prevPage()"></button>
+          <button class="ghost-btn" id="prevBtn" onclick="prevPage(this)"></button>
         </div>
         <div class="dots" id="dots"></div>
       </div>
     </div>
   </div>
+
+  <div class="toast" id="toast"></div>
 
   <audio id="bgm" src="./bgm.m4a" loop preload="auto"></audio>
   <audio id="voice" src="./voice.m4a" preload="auto"></audio>
@@ -751,7 +1009,9 @@
         mini: "birthday card",
         title: "给璇璇的一页生日祝福",
         text: "生日快乐。\n愿你新的一岁平安、明亮、顺遂，常常开心，偶尔惊喜，也一直拥有感受幸福的能力。",
-        btn: "继续往下看"
+        btn: "继续往下看",
+        musicHint: "点一下页面或按钮，音乐会一起开始。",
+        whisper: "这一页不是普通网页，是藏在礼物里的小心思。"
       },
 
       page2: {
@@ -839,8 +1099,10 @@
         mini: "final page",
         title: "还有最后一个小彩蛋",
         text: "如果你已经看到这里了，\n那这份礼物里藏着的小心思，应该也算被你好好收到了。",
-        eggBtn: "for 最好的璇璇",
-        tag: "结束啦"
+        eggBtn: "For 最好的璇璇",
+        tag: "only for 璇璇",
+        finalMessage: "生日快乐，璇璇。\n这份藏起来的小心意，到这里就算完整送到你手里了。",
+        replayBtn: "再看一遍"
       },
 
       common: {
@@ -854,6 +1116,7 @@
     let bgmStarted = false;
     let voicePlayed = false;
     let chibiOpened = false;
+    let toastTimer = null;
 
     const pages = [
       document.getElementById("page0"),
@@ -867,10 +1130,33 @@
     const musicToggle = document.getElementById("musicToggle");
     const chibiInline = document.getElementById("chibiInline");
     const eggPage = document.getElementById("eggPage");
+    const chibiSceneImg = document.getElementById("chibiSceneImg");
+    const pageCount = document.getElementById("pageCount");
+    const musicHint = document.getElementById("musicHint");
+    const whisperText = document.getElementById("whisperText");
+    const finalMessage = document.getElementById("finalMessage");
+    const replayWrap = document.getElementById("replayWrap");
+    const toast = document.getElementById("toast");
 
     bgm.volume = 0.26;
     voice.volume = 1.0;
     bgm.muted = false;
+
+    function showToast(text, duration = 2400) {
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, duration);
+    }
+
+    function tapEffect(el) {
+      if (!el) return;
+      el.classList.remove("tap");
+      void el.offsetWidth;
+      el.classList.add("tap");
+    }
 
     function applyContent() {
       document.getElementById("siteName").textContent = CONTENT.siteName;
@@ -883,6 +1169,8 @@
       document.getElementById("p1Title").textContent = CONTENT.page1.title;
       document.getElementById("p1Text").textContent = CONTENT.page1.text;
       document.getElementById("p1Btn").textContent = CONTENT.page1.btn;
+      musicHint.textContent = CONTENT.page1.musicHint;
+      whisperText.textContent = CONTENT.page1.whisper;
 
       document.getElementById("p2Mini").textContent = CONTENT.page2.mini;
       document.getElementById("p2Title").textContent = CONTENT.page2.title;
@@ -901,16 +1189,21 @@
       document.getElementById("p4Text").textContent = CONTENT.page4.text;
       document.getElementById("p4EggBtn").textContent = CONTENT.page4.eggBtn;
       document.getElementById("p4Tag").textContent = CONTENT.page4.tag;
+      finalMessage.textContent = CONTENT.page4.finalMessage;
+      document.getElementById("replayBtn").textContent = CONTENT.page4.replayBtn;
 
       document.getElementById("prevBtn").textContent = CONTENT.common.prevBtn;
     }
 
     async function tryPlayBgm() {
       if (!musicEnabled) return false;
+
       try {
         bgm.muted = false;
+        bgm.volume = 0.26;
         await bgm.play();
         bgmStarted = true;
+        musicHint.classList.add("hidden");
         updateMusicButton();
         return true;
       } catch (e) {
@@ -932,15 +1225,21 @@
     async function ensureBgmStarted() {
       if (!musicEnabled) return;
       if (!bgmStarted || bgm.paused) {
-        await tryPlayBgm();
+        const ok = await tryPlayBgm();
+        if (!ok) {
+          showToast("浏览器会拦截自动播放，点一下页面就能开音乐。");
+        }
       }
     }
 
     musicToggle.addEventListener("click", async (e) => {
       e.stopPropagation();
+      tapEffect(musicToggle);
+
       if (bgm.paused) {
         musicEnabled = true;
-        await tryPlayBgm();
+        const ok = await tryPlayBgm();
+        if (!ok) showToast("点一下页面任意位置，也可以开始播放音乐。");
       } else {
         bgm.pause();
         musicEnabled = false;
@@ -948,13 +1247,15 @@
       }
     });
 
-    async function goToPage(index) {
+    async function goToPage(index, btn = null) {
+      tapEffect(btn);
       await ensureBgmStarted();
       currentStep = index;
       renderPage();
     }
 
-    async function prevPage() {
+    async function prevPage(btn = null) {
+      tapEffect(btn);
       await ensureBgmStarted();
       if (currentStep > 0) {
         currentStep--;
@@ -967,6 +1268,7 @@
         page.classList.toggle("active", index === currentStep);
       });
       document.getElementById("pageLabel").textContent = labels[currentStep];
+      pageCount.textContent = `第 ${currentStep + 1} 页 / 共 ${pages.length} 页`;
       renderDots();
     }
 
@@ -985,7 +1287,8 @@
       }
     }
 
-    async function openChibiScene() {
+    async function openChibiScene(btn = null) {
+      tapEffect(btn);
       await ensureBgmStarted();
 
       if (!chibiOpened) {
@@ -1000,13 +1303,45 @@
             await voice.play();
           } catch (e) {}
         }
+
+        setTimeout(() => {
+          finalMessage.classList.add("show");
+        }, 900);
+
+        setTimeout(() => {
+          replayWrap.classList.add("show");
+        }, 1450);
       }
+    }
+
+    function restartStory(btn = null) {
+      tapEffect(btn);
+      currentStep = 0;
+      chibiOpened = false;
+      eggPage.classList.remove("reveal");
+      finalMessage.classList.remove("show");
+      replayWrap.classList.remove("show");
+      renderPage();
+      showToast("重新回到开头啦。");
     }
 
     voice.addEventListener("ended", () => {
       if (!bgm.paused && musicEnabled) {
         bgm.volume = 0.26;
       }
+    });
+
+    chibiSceneImg.addEventListener("error", () => {
+      showToast("彩蛋图片没有加载出来，请检查 chibi-cake.png 是否和 html 在同一目录。", 3200);
+    });
+
+    bgm.addEventListener("error", () => {
+      showToast("背景音乐文件没有加载成功，请检查 bgm.m4a 路径。", 3200);
+      musicToggle.textContent = "♪ 音乐文件失败";
+    });
+
+    voice.addEventListener("error", () => {
+      showToast("语音文件没有加载成功，请检查 voice.m4a 路径。", 3200);
     });
 
     window.addEventListener("load", () => {
@@ -1020,6 +1355,10 @@
         shell.classList.add("ready");
         await tryPlayBgm();
         updateMusicButton();
+
+        if (bgm.paused) {
+          showToast("建议打开声音，再点一下页面开始播放。", 2600);
+        }
       }, 1050);
     });
 
