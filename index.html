@@ -408,6 +408,7 @@
       flex-direction: column;
       align-items: flex-end;
       gap: 8px;
+      cursor: pointer;
     }
 
     .whisper-dot {
@@ -435,7 +436,8 @@
       pointer-events: none;
     }
 
-    .corner-whisper:hover .whisper-card {
+    .corner-whisper:hover .whisper-card,
+    .corner-whisper.open .whisper-card {
       opacity: 1;
       transform: translateY(0);
     }
@@ -591,7 +593,8 @@
     .frame-btn.tap,
     .ghost-btn.tap,
     .egg-btn.tap,
-    .music-btn.tap {
+    .music-btn.tap,
+    .replay-btn.tap {
       animation: buttonTap .28s ease;
     }
 
@@ -902,7 +905,7 @@
         <section class="page active" id="page0">
           <div class="frame">
             <div class="frame-inner welcome-card">
-              <div class="corner-whisper">
+              <div class="corner-whisper" id="cornerWhisper">
                 <div class="whisper-dot"></div>
                 <div class="whisper-card" id="whisperText"></div>
               </div>
@@ -1128,7 +1131,6 @@
     const bgm = document.getElementById("bgm");
     const voice = document.getElementById("voice");
     const musicToggle = document.getElementById("musicToggle");
-    const chibiInline = document.getElementById("chibiInline");
     const eggPage = document.getElementById("eggPage");
     const chibiSceneImg = document.getElementById("chibiSceneImg");
     const pageCount = document.getElementById("pageCount");
@@ -1137,6 +1139,7 @@
     const finalMessage = document.getElementById("finalMessage");
     const replayWrap = document.getElementById("replayWrap");
     const toast = document.getElementById("toast");
+    const cornerWhisper = document.getElementById("cornerWhisper");
 
     bgm.volume = 0.26;
     voice.volume = 1.0;
@@ -1316,11 +1319,25 @@
 
     function restartStory(btn = null) {
       tapEffect(btn);
+
       currentStep = 0;
       chibiOpened = false;
+      voicePlayed = false;
+
       eggPage.classList.remove("reveal");
       finalMessage.classList.remove("show");
       replayWrap.classList.remove("show");
+
+      voice.pause();
+      voice.currentTime = 0;
+
+      if (musicEnabled && !bgm.paused) {
+        bgm.volume = 0.26;
+        musicHint.classList.add("hidden");
+      } else {
+        musicHint.classList.remove("hidden");
+      }
+
       renderPage();
       showToast("重新回到开头啦。");
     }
@@ -1344,9 +1361,16 @@
       showToast("语音文件没有加载成功，请检查 voice.m4a 路径。", 3200);
     });
 
-    window.addEventListener("load", () => {
-      applyContent();
+    cornerWhisper.addEventListener("click", (e) => {
+      e.stopPropagation();
+      cornerWhisper.classList.toggle("open");
+    });
 
+    document.addEventListener("click", () => {
+      cornerWhisper.classList.remove("open");
+    });
+
+    window.addEventListener("load", () => {
       const loading = document.getElementById("loadingScreen");
       const shell = document.getElementById("shell");
 
